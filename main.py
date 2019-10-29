@@ -31,7 +31,7 @@ def create_room():
     room_id = len(rooms)
     rooms.append(Room(room_id, players_number, 'map-king', map_size))
 
-    return redirect('/room/{}/map'.format(room_id))
+    return redirect('/room/{}/join'.format(room_id))
 
 
 @app.route('/room/<int:room_id>/map')
