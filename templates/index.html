@@ -8,7 +8,10 @@
   <p>Some sample code to make sure Flask-SocketIO works...</p>
   <button onclick="createGame()">Create Game</button>
   <button onclick="joinGame()">Join Game (id 0 hardcoded)</button>
-  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
+
+</body>
+</html>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
   <script type="text/javascript" charset="utf-8">
     var socket = io('https://' + document.domain + ':' + location.port, {transports: ['websocket'] });
     // verify our websocket connection is established
@@ -35,5 +38,3 @@
       socket.emit('join', {room_id: 0});
     }
   </script>
-</body>
-</html>
