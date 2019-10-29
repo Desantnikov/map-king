@@ -1,4 +1,4 @@
-from flask import Flask, request, redirect
+from flask import Flask, request, redirect, render_template
 from flask_cors import cross_origin
 from flask_socketio import SocketIO, join_room, emit
 
@@ -14,17 +14,26 @@ rooms = []
 
 @app.route('/')
 @cross_origin()
-def index():
-    return 'Игрушка'
+def index():  # test
+    return render_template('index.html')
 
-#@socketio.on('create')
-#def on_create(data):
+@socketio.on('create')
+def on_create(data):
+    map_size = 10
+    players_number = 2
 
+    room_id = len(rooms)
+    rooms.append(Room(room_id, players_number, 'map-king', map_size))
+
+    join_room(room_id)
+    emit('join_room', {'room': room_id})
 
 
 @app.route('/room/new', methods=['GET'])
 @cross_origin()
 def create_room():
+    print('/room/new endpoint')
+
     map_size = int(request.args.get('size', 10))
     players_number = int(request.args.get('players_number', 2))
 
