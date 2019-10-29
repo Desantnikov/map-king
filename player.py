@@ -1,6 +1,6 @@
 import time
 
-class Player:
+class Player:  # TODO: inherit from liberty
     def __init__(self, id, offset):
         self.id = id
         self.location = {'x': offset * id,  # TODO: rework

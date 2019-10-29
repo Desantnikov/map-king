@@ -1,4 +1,4 @@
-class Liberty:
+class Liberty:  # TODO: Rename to NoOne
     # cell owned by liberty == nobody's cell
 
     def __init__(self):

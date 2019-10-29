@@ -1,8 +1,13 @@
 from flask import Flask, request, redirect
 from flask_cors import cross_origin
+from flask_socketio import SocketIO, join_room, emit
+
 from room import Room
 
 app = Flask(__name__)
+socketio = SocketIO(app)
+
+ROOMS = {}
 
 rooms = []
 
@@ -11,6 +16,10 @@ rooms = []
 @cross_origin()
 def index():
     return 'Игрушка'
+
+#@socketio.on('create')
+#def on_create(data):
+
 
 
 @app.route('/room/new', methods=['GET'])
