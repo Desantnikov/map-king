@@ -24,7 +24,7 @@ class Room:
         return True
 
     def get_map(self):
-        return self.map.serialize()#json.dumps(self.map.serialize())
+        return json.dumps(self.map.serialize())
         # TODO: return self.serialize(), move jsonify to main
 
     def get_info(self):

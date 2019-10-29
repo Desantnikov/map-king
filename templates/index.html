@@ -21,7 +21,7 @@
     // message handler for the 'join_room' channel
     socket.on('joined', function(msg) {
         console.log('Joined room');
-        console.log(msg);
+        console.log(JSON.stringify(msg));
     });
     // createGame onclick - emit a message on the 'create' channel to
     // create a new game with default parameters
