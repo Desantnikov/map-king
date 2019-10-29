@@ -30,13 +30,13 @@ def on_create(data):
     rooms.append(Room(room_id, players_number, 'map-king', map_size))
 
     join_room(room_id)
-    emit('join_room', {'room': room_id})
+    emit('message', {'room': room_id})
 
 @socketio.on('join')
 def on_join(data):
     room_id = data['room_id']
     if room_id < len(rooms):
-        emit(rooms[room_id].get_map())
+        emit('joined', {'map': rooms[room_id].get_map()})
     else:
         send('Pashol nahui (no such room)')
 

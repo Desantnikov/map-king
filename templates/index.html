@@ -15,8 +15,12 @@
     socket.on('connect', function() {
         console.log('Websocket connected!');
     });
+    socket.on('message', function(msg) {
+        console.log(msg);
+    });
     // message handler for the 'join_room' channel
-    socket.on('join_room', function(msg) {
+    socket.on('joined', function(msg) {
+        console.log('Joined room');
         console.log(msg);
     });
     // createGame onclick - emit a message on the 'create' channel to
