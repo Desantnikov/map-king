@@ -3,7 +3,6 @@ from flask_cors import cross_origin
 from room import Room
 
 app = Flask(__name__)
-#cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 rooms = []
 
@@ -14,8 +13,7 @@ def index():
     return 'Игрушка'
 
 
-
-@app.route('/room/new', methods = ['GET'])
+@app.route('/room/new', methods=['GET'])
 @cross_origin()
 def create_room():
     map_size = int(request.args.get('size', 10))
@@ -39,10 +37,13 @@ def get_session_info(room_id):
     return rooms[room_id].get_info()
 
 
-@app.route('/room/join/<int:room_id>')
+@app.route('/room/<int:room_id>/join')
 @cross_origin()
 def join_room(room_id):
-    return {'user_id': 4234, 'max_players': 4, 'cur_player': 2}
+    if len(rooms) > room_id:
+        return redirect('/room/{}/map'.format(room_id))
+    return 'No such room'
+
 
 if __name__ == '__main__':
     app.run('0.0.0.0', 80)
