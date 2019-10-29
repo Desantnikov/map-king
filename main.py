@@ -7,7 +7,7 @@ from room import Room
 app = Flask(__name__)
 socketio = SocketIO(app)
 
-ROOMS = {}
+#ROOMS = {}
 
 rooms = []
 
@@ -31,7 +31,7 @@ def create_room():
     room_id = len(rooms)
     rooms.append(Room(room_id, players_number, 'map-king', map_size))
 
-    return redirect('/room/{}/map'.format(room_id))
+    return redirect('/room/{}/join'.format(room_id))
 
 
 @app.route('/room/<int:room_id>/map')
@@ -40,18 +40,18 @@ def get_map(room_id):
     return rooms[room_id].get_map()
 
 
-@app.route('/room/<int:room_id>')
-@cross_origin()
-def get_session_info(room_id):
-    return rooms[room_id].get_info()
+#@app.route('/room/<int:room_id>')
+#@cross_origin()
+#def get_session_info(room_id):
+#    return rooms[room_id].get_info()
 
 
 @app.route('/room/<int:room_id>/join')
 @cross_origin()
 def join_room(room_id):
-    if len(rooms) > room_id:
-        return redirect('/room/{}/map'.format(room_id))
-    return 'No such room'
+    #if len(rooms) > room_id:
+    return redirect('/room/{}/map'.format(room_id))
+    #return 'No such room'
 
 
 if __name__ == '__main__':

@@ -24,7 +24,7 @@ class Room:
 
 
     def join(self):
-        pass
+        return True
 
     def get_map(self):
         return json.dumps([self.map.serialize()])
