@@ -36,7 +36,9 @@ def on_create(data):
 def on_join(data):
     room_id = data['room_id']
     if room_id < len(rooms):
-        emit('joined', rooms[room_id].get_map().to_json())
+        response = rooms[room_id].get_map()
+        print(type(response))
+        emit('joined', response)
     else:
         emit('joined', {'response': 'Pashol nahui(no such room)'})
 
