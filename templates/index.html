@@ -15,8 +15,8 @@
     socket.on('connect', function() {
         console.log('Websocket connected!');
     });
-    socket.on('message', function(msg) {
-        console.log(msg);
+    socket.on('message', function(data) {
+        console.log(data);
     });
     // message handler for the 'join_room' channel
     socket.on('joined', function(msg) {

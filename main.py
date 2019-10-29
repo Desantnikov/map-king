@@ -38,7 +38,7 @@ def on_join(data):
     if room_id < len(rooms):
         emit('joined', {'map': rooms[room_id].get_map()})
     else:
-        send('Pashol nahui (no such room)')
+        emit('joined', {'response': 'Pashol nahui(no such room)'})
 
 
 @app.route('/room/new', methods=['GET'])
