@@ -1,6 +1,6 @@
 from flask import Flask, request, redirect, render_template
 from flask_cors import cross_origin
-from flask_socketio import SocketIO, join_room, emit
+from flask_socketio import SocketIO, join_room, emit, send
 
 from room import Room
 
@@ -17,16 +17,28 @@ rooms = []
 def index():  # test
     return render_template('index.html')
 
+@socketio.on('connect')
+def on_connect():
+    print('socket connected')
+
 @socketio.on('create')
 def on_create(data):
-    map_size = 10
-    players_number = 2
+    map_size = data['map_size']
+    players_number = data['players']
 
     room_id = len(rooms)
     rooms.append(Room(room_id, players_number, 'map-king', map_size))
 
     join_room(room_id)
     emit('join_room', {'room': room_id})
+
+@socketio.on('join')
+def on_join(data):
+    room_id = data['room_id']
+    if room_id < len(rooms):
+        emit(rooms[room_id].get_info(), json=True)
+    else:
+        send('Pashol nahui (no such room)')
 
 
 @app.route('/room/new', methods=['GET'])

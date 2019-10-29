@@ -6,7 +6,6 @@ import time
 import json
 
 
-
 class Room:
     def __init__(self, id, players_amount, type, map_size):
         self.id = id
@@ -21,14 +20,12 @@ class Room:
 
         self.map = Map(map_size, self.players)
 
-
-
     def join(self):
         return True
 
     def get_map(self):
         return json.dumps([self.map.serialize()])
-        # TODO: return self.serialize()
+        # TODO: return self.serialize(), move jsonify to main
 
     def get_info(self):
         return json.dumps([self.id, self.type, self.map.serialize()])
