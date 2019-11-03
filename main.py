@@ -29,7 +29,9 @@ def on_create(data):
     room_id = len(rooms)
     rooms.append(Room(room_id, players_number, 'map-king', map_size))
 
-    #join_room(room_id)
+    print('Create game !1!!')
+    print('Create game !1!1!')
+    print('Create game !1!!11')
 
     emit('message', {'room': room_id})
 
