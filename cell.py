@@ -1,24 +1,33 @@
+from loguru import logger
+
+from player import Nobody
+from map_object import MapObject
 
 
-class Cell:
-    def __init__(self, owner=None, x=None, y=None):#, occupied_by=None):
-        self.owner = owner
-        #self.x = x
-        #self.y = y
+class Cell(MapObject):
+    def __init__(self, x, y, owner):
+        super().__init__(x, y)
+        self.owner = self.occupied_by = owner.id
 
-    #def get_position(self):
-    #    return self.x, self.y
+    def __str__(self):
+        return f'Owner: {self.owner}; Occupied by: {self.occupied_by}; Position: {self.get_location()}'
 
-    def serialize(self):
-        return [self.owner.id]
+    def __repr__(self):
+        return f'{self.get_pos()}'
 
-    def update(self, new_owner=None):
-        if new_owner:
-            self.owner = new_owner
+    def is_occupied(self):
+        return self.occupied_by is not None
+
+    occupied = property(is_occupied)
+
+    def occupy(self, player):
+        if player:
+            self.owner = player.id
+        self.occupied_by = player.id
+        logger.info(f'Cell X,Y:{self.get_location()} is now occupied by {self.occupied_by};')
+
+        return True
 
 
-    #def __contains__(self, players_list):
-    #    for player in players_list:
-    #        return all([self.x == player.x, self.y == player.y])
-    #    return True if
+
 

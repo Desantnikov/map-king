@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Flask SocketIO Test</title>
+</head>
+<body>
+  <p>Map-king game</p>
+  <button onclick="turn()">Turn</button>
+  <p>Turn of Player #</p>
+  <p id="player_id">0</p>
+  <textarea id="direction">DOWN</textarea>
+  <br>
+  <canvas id='field'>Field</canvas>
+
+<script src="https://cdn.socket.io/socket.io-1.2.1.js"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
+  <script type="text/javascript" charset="utf-8">
+    var socket = io.connect('http://' + document.domain + ':' + location.port, {transports: ['websocket'] });
+
+    var field = document.getElementById('field'),
+      ctx = field.getContext('2d');
+
+    var turn_owner = 0
+
+    field.width = 500;
+    field.height = 500;
+    ctx.strokeRect(0,0, 500, 500);
+
+    socket.on('test', function(msg) {
+        console.log('Test:', msg);
+    });
+
+    socket.on('map_update', function(msg) {
+        console.log('Map updated: ', JSON.stringify(msg));
+        draw(msg, field);
+        turn_owner = msg['turn_owner']
+        document.getElementById("player_id").innerHTML = turn_owner
+    });
+
+
+    function turn() {
+      //let player_id = document.getElementById("player_id").innerHTML
+      let direction = document.getElementById("direction").value
+      let room_id = 0
+
+      console.log(player_id)
+      //console.log(direction)
+      dict = {'room_id': room_id, 'player_id': turn_owner, 'direction': direction}
+      console.log('Sending: ', dict)
+
+      socket.emit('turn', dict)
+    }
+
+
+  function draw(data, field) {
+      ctx.clearRect(0,0, 500,500)
+      //var columns = 10;
+      cellSize = 20;
+      data = JSON.parse(data['map']);
+      var size = data.length;
+
+      //console.log('Data: ', data);
+      offset = Math.ceil((field.width / data.length));
+      margin = Math.ceil(offset / 4);
+
+
+      //console.log('Draw function: ');
+      //console.log('data.length: ', data.length, ';  Offset: ', offset, ';  cellSize: ', cellSize, ';   margin: ', margin)
+
+      var colors = {0: 'rgb(255,0,0)', 1: 'rgb(0,255,0)', 2: 'rgb(0,0,255)', 3: 'rgb(255,255,0)'}
+
+      for (line = 0; line < size; ++line ){
+          for (column = 0; column < size; ++column ){
+              //console.log('Column: ', column);
+              //console.log('Cell value: ', data[line][column]);
+              if (data[line][column] != null ){
+                  //console.log('data[line][column]: ', data[line][column])
+                  ctx.fillStyle = colors[data[line][column]]
+              } else {
+                  ctx.fillStyle = 'rgb(0,50,00)';
+              }
+
+
+              ctx.fillRect(line*offset + margin, column*offset + margin,cellSize, cellSize);
+              //console.log('Offset: ', offset);
+
+
+
+
+
+          }
+      }
+  }
+
+  </script>
+
+</body>
+</html>
