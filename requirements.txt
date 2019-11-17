@@ -1,6 +1,0 @@
-Flask==1.1.1
-Flask-Cors==3.0.8
-eventlet==0.25.1
-Flask-SocketIO==4.2.1
-gunicorn==18.0.0
-

@@ -1,1 +1,0 @@
-gunicorn main:socketiog --log-file=-
