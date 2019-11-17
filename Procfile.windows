@@ -1,1 +1,1 @@
-web: gunicorn main:socketio --log-file=-
+gunicorn main:socketio --log-file=-

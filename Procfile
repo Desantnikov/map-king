@@ -1,1 +1,1 @@
-web: gunicorn main:socketiog --log-file=-
+gunicorn main:socketiog --log-file=-
