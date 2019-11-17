@@ -1,9 +1,10 @@
-import cell
-from map import Map
-from player import Player
+
+from models.map import Map
+from models.player import Player
 from liberty import Liberty
 import time
 import json
+from collections import deque
 
 
 class Room:
@@ -14,11 +15,15 @@ class Room:
         self.type = type
         self.map_size = map_size
 
-        self.players = []
-        for new_player in range(players_amount):
-            self.players.append(Player(new_player, map_size // players_amount))
+
+        self.players = (Player(new_player, map_size // players_amount) for new_player in range(players_amount))
+
+        self.players_queue = deque(self.players)
 
         self.map = Map(map_size, self.players)
+
+
+
 
     def join(self):
         return True

@@ -1,4 +1,4 @@
-from cell import Cell
+from .cell import Cell
 from itertools import product
 from liberty import Liberty
 
@@ -12,12 +12,13 @@ class Map:
         self.liberty = Liberty()
 
         self.cells_list = [[Cell(owner=self.liberty) for x in range(self.size)] for y in range(self.size)]
-        self.update_occupied_cells()
+        #self.update_occupied_cells()
 
 
-    def update_occupied_cells(self):
-        for player in self.players:
-            self.cells_list[player.x][player.y].update(new_owner=player)
+
+    # def update_occupied_cells(self):
+    #     for player in self.players:
+    #         self.cells_list[player.x][player.y].update(new_owner=player)
 
 
     def serialize(self):

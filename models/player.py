@@ -19,5 +19,3 @@ class Player:  # TODO: inherit from liberty
     def y(self):
         return self.location['y']
 
-    def get_location(self):
-        return self.x, self.y
