@@ -50,7 +50,7 @@ def turn(room_id, player_id, cells): # get from socket query
 
 @socketio.on('test')
 def test(data):  # get from socket query
-    socketio.emit('test', ' 123123123')
+    socketio.emit('test', '123123123')
     print(data)
     return "12312412"
 

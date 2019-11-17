@@ -1,1 +1,1 @@
-web: gunicorn main:app --log-file=-
+--worker-class eventlet --bind 0.0.0.0:5000 main.run:app
