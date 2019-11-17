@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Flask SocketIO Test</title>
+</head>
+<body>
+  <p>Some sample code to make sure Flask-SocketIO works...</p>
+  <button onclick="createGame()">Create Game</button>
+  <button onclick="joinGame()">Join Game (id 0 hardcoded)</button>
+  <button onclick="test()">test</button>
+
+</body>
+</html>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
+  <script type="text/javascript" charset="utf-8">
+    var socket = io('https://' + document.domain + ':' + location.port, {transports: ['websocket'] });
+    // verify our websocket connection is established
+    socket.on('connect', function() {
+        console.log('Websocket connected!');
+    });
+    socket.on('message', function(data) {
+        console.log(data);
+    });
+
+    socket.on('map', function(msg) {
+        console.log('Joined room');
+        console.log(JSON.stringify(msg));
+    });
+
+    socket.on('test', function(msg) {
+        console.log('Message:');
+        console.log(msg);
+    });
+
+    function createGame() {
+      console.log('Emitting turn.');
+      socket.emit('turn', {room_id: 0, player_id: 0, cells: 1});
+    }
+
+    function joinGame() {
+      console.log('Joining game game...');
+      socket.emit('join', {room_id: 0});
+    }
+
+    function test() {
+      console.log('Emitting test.');
+      socket.emit('test', 'test11111');
+    }
+
+  </script>
