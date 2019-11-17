@@ -1,6 +1,7 @@
 from flask import Flask, request, redirect, render_template
 from flask_cors import cross_origin
 from flask_socketio import SocketIO, join_room, emit, send
+import json
 
 from models.room import Room
 from controllers.room import RoomController
@@ -24,6 +25,7 @@ def index():  # test
 @app.route('/room/new', methods=['GET'])
 @cross_origin()
 def create_room():
+    print('create_room func')
     map_size = int(request.args.get('size', 10))
     players_number = int(request.args.get('players_number', 2))
     room_id = len(roomControllers)
@@ -37,7 +39,7 @@ def create_room():
 def play(room_id):
     socketio.emit('map', roomControllers[room_id].get_map())
     socketio.emit('turn_of', roomControllers[room_id].check_turn())
-    socketio.emit('test', ' Play func')
+    socketio.emit('test', json.dumps('Play func'))
     return render_template('play.html')
 
 
