@@ -8,8 +8,6 @@ from app import flask_app, socketio
 from config import MAP_SETTINGS, MAP_DEFAULTS
 from json_encoder import UniversalJsonEncoder
 from room import Room
-from json_encoder import UniversalJsonEncoder
-from config import MAP_SETTINGS, MAP_DEFAULTS, DIRECTIONS
 
 rooms = []
 
@@ -18,12 +16,6 @@ rooms = []
 @cross_origin()
 def index():
     return "Please use /room/new"
-#
-# @flask_app.route('/tables')
-# @cross_origin()
-# def tables():
-#     #from app import db
-#     return f"Tables: {db.engine.table_names()} "
 
 
 @flask_app.route('/room/new', methods=['GET'])
