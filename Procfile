@@ -1,1 +1,1 @@
-gunicorn main:socketiog --log-file=-
+gunicorn main:app --log-file=-
