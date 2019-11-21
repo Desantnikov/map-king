@@ -13,11 +13,12 @@
 <script src="https://cdn.socket.io/socket.io-1.2.1.js"></script>
 <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
   <script type="text/javascript" charset="utf-8">
-    var socket = io.connect('https://' + document.domain + ':' + location.port, {transports: ['websocket'] });
+    var socket = io.connect('http://' + document.domain + ':' + location.port, {transports: ['websocket'] });
     //socket = io.connect('https://' + document.domain);
     // verify our websocket connection is established
     socket.on('connect', function() {
         console.log('Websocket connected!');
+        socket.emit('join', 0);
     });
     socket.on('message', function(data) {
         console.log(data);
@@ -25,6 +26,11 @@
 
     socket.on('map', function(msg) {
         console.log('Joined room');
+        console.log(JSON.stringify(msg));
+    });
+
+    socket.on('turn_of_player', function(msg) {
+        console.log('Turn of playera');
         console.log(JSON.stringify(msg));
     });
 
@@ -40,7 +46,7 @@
 
     function joinGame() {
       console.log('Joining game game...');
-      socket.emit('join', {room_id: 0});
+      socket.emit('join', 0);
     }
 
     function test() {

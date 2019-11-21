@@ -12,9 +12,12 @@ class Cell:
     def serialize(self):
         return [self.owner.id]
 
-    # def update(self, new_owner=None):
-    #     if new_owner:
-    #         self.owner = new_owner
+    def update(self, occupied_by=None):
+        if occupied_by:
+            self.owner = occupied_by
+            self.occupied_by = occupied_by
+        else:
+            self.occupied_by = None
 
 
     #def __contains__(self, players_list):

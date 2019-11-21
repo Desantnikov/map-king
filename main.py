@@ -11,7 +11,7 @@ socketio = SocketIO(app)
 
 #roomControllers = {}
 
-roomControllers = {}
+roomControllers = []
 
 counter = 0
 
@@ -25,11 +25,11 @@ def index():  # test
 @app.route('/room/new', methods=['GET'])
 @cross_origin()
 def create_room():
-    print('create_room func')
-    map_size = int(request.args.get('size', 10))
-    players_number = int(request.args.get('players_number', 2))
+    print('create_room func 1')
+    map_size = 10#int(request.args.get('size', 10))
+    players_number = 3#int(request.args.get('players_number', 2))
     room_id = len(roomControllers)
-    roomControllers[room_id] = RoomController(Room(room_id, players_number, 'map-king', map_size))
+    roomControllers.append(RoomController(Room(room_id, players_number, 'map-king', map_size)))
 
     return redirect('/room/{}'.format(room_id))
 
@@ -37,11 +37,15 @@ def create_room():
 @app.route('/room/<int:room_id>')
 @cross_origin()
 def play(room_id):
-    socketio.emit('map', roomControllers[room_id].get_map())
-    socketio.emit('turn_of', roomControllers[room_id].check_turn())
-    socketio.emit('test', json.dumps('Play func'))
     return render_template('play.html')
 
+@socketio.on('join')
+def join(data): # get from socket query
+
+    socketio.emit('map', roomControllers[0].get_map())
+    socketio.emit('turn_of_player', roomControllers[0].check_turn())
+
+    return "turn"
 
 @socketio.on('turn')
 def turn(room_id, player_id, cells): # get from socket query
@@ -49,12 +53,6 @@ def turn(room_id, player_id, cells): # get from socket query
     cells = ((1,2), (3,4), (5,6))  # parse cords of cells from query
     roomControllers[room_id].turn(player_id, cells)
     return "turn"
-
-@socketio.on('test')
-def test(data):  # get from socket query
-    socketio.emit('test', '123123123')
-    print(data)
-    return "12312412"
 
 
 

@@ -16,7 +16,7 @@ class Room:
         self.map_size = map_size
 
 
-        self.players = (Player(new_player, map_size // players_amount) for new_player in range(players_amount))
+        self.players = tuple(Player(new_player, map_size // players_amount) for new_player in range(players_amount))
 
         self.players_queue = deque(self.players)
 
