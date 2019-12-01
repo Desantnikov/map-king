@@ -48,10 +48,16 @@ def join(data): # get from socket query
     return "turn"
 
 @socketio.on('turn')
-def turn(room_id, player_id, cells): # get from socket query
-    socketio.emit('test', ' turn func')
-    cells = ((1,2), (3,4), (5,6))  # parse cords of cells from query
-    roomControllers[room_id].turn(player_id, cells)
+def turn(data): # get from socket query
+    print('data: ' + str(data))
+    #print(f'data2:   {data["player_id"]}')
+    #socketio.emit('test', ' turn func')
+    #cells = ((1,2), (3,4), (5,6))  # parse cords of cells from query
+    roomControllers[0].turn(data['player_id'], data['cell_x'], data['cell_y'])
+
+    socketio.emit('map', roomControllers[0].get_map())
+    socketio.emit('turn_of_player', roomControllers[0].check_turn())
+
     return "turn"
 
 

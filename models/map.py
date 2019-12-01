@@ -13,12 +13,15 @@ class Map:
 
         self.cells_list = [[Cell(owner=self.liberty) for x in range(self.size)] for y in range(self.size)]
         #self.update_occupied_cells()
+        self.update_occupied_cells()
 
-        for player in self.players:
+    def update_occupied_cells(self, players=None):
+        if not players:
+            players = self.players
+        for player in players:
+            print(f'Updating cell [{player.x}][{player.y}] with player {player.id}')
             self.cells_list[player.x][player.y].update(occupied_by=player)
 
-    # def update_occupied_cells(self):
-    #
 
     def serialize(self):
         cells = [[self.cells_list[x][y].serialize() for x in range(self.size)] for y in range(self.size)]

@@ -15,7 +15,14 @@ class Player:  # TODO: inherit from liberty
     def x(self):
         return self.location['x']
 
+    @x.setter
+    def x(self, x):
+        self.location['x'] = x
+
     @property
     def y(self):
         return self.location['y']
 
+    @y.setter
+    def y(self, y):
+        self.location['y'] = y

@@ -50,8 +50,8 @@
     }
 
     function test() {
-      console.log('Emitting test.');
-      socket.emit('test', 'test11111');
+      console.log('Turn');
+      socket.emit('turn', {player_id: 0, cell_x: 0, cell_y: 1});
     }
 
   </script>

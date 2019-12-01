@@ -8,23 +8,27 @@ class RoomController:
         self.room = room
         self.map_controller = MapController(self.room.map)
 
-    def turn(self, player_id, *args):
+    def turn(self, player_id, x, y):
         if not self.check_turn() == player_id:
             return False, 'Not your turn'
+        print(f'check turn passed player {player_id} turning')
 
-        player = self.get_player_by_id(player_id)
+        player = self.room.players_queue.popleft()
+        #player = self.get_player_by_id(player_id)
 
-        for x, y in args:
-            if self.map_controller.step(player, x, y):
-                print("Event happened")
+        #for x, y in args:
+        if self.map_controller.step(player_id, x, y):
+            print("Event happened")
 
-        self.move_to_end()
+        self.room.players_queue.append(player)
+        self.map_controller.update_occupied_cells(self.room.players_queue) #(self.map_controller.map.players)?
+        #self.move_to_end()
 
     def check_path(self, *args):  # check for jumps
         pass
 
     def check_turn(self):  # cookie better
-        return self.room.players_queue[-1].id
+        return self.room.players_queue[0].id
 
     def get_room_id(self):
         return self.room.id
@@ -42,8 +46,8 @@ class RoomController:
     def get_info(self):
         return json.dumps([self.id, self.type, self.map.serialize()])
 
-    def move_to_end(self):
-        player = self.room.players_queue.popleft()
-        self.room.players_queue.append(player)
+    #def move_to_end(self):
+        #player = self.room.players_queue.popleft()
+        #self.room.players_queue.append(player)
 
 

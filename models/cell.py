@@ -2,7 +2,9 @@
 
 class Cell:
     def __init__(self, owner=None, x=None, y=None):#, occupied_by=None):
+
         self.owner = owner
+
         #self.x = x
         #self.y = y
 
