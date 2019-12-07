@@ -5,29 +5,33 @@
   <title>Flask SocketIO Test</title>
 </head>
 <body>
-  <p>Some sample code to make sure Flask-SocketIO works...</p>
-  <button onclick="createGame()">Create Game</button>
-  <button onclick="turn()">Turn (id 0 hardcoded)</button>
-  <button onclick="test()">test</button>
-  <textarea id="player_id">0</textarea>
+  <p>Map-king game</p>
+  <button onclick="turn()">Turn</button>
+  <p id="player_id">Turn of Player 0</p>
   <textarea id="direction">DOWN</textarea>
+  <br>
+  <canvas id='field'>Field</canvas>
 
 <script src="https://cdn.socket.io/socket.io-1.2.1.js"></script>
 <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
   <script type="text/javascript" charset="utf-8">
     var socket = io.connect('http://' + document.domain + ':' + location.port, {transports: ['websocket'] });
-    //console.log('http://' + document.domain + ':' + location.port)
-    //socket = io.connect('https://' + document.domain);
-    // verify our websocket connection is established
-    //socket.on('connect', function() {
-    //    console.log('Websocket connected!');
-    //    socket.emit('get_map', 0);
-    //});
 
+    var field = document.getElementById('field'),
+      ctx = field.getContext('2d');
+
+    field.width = 500;
+    field.height = 500;
+    ctx.strokeRect(0,0, 500, 500);
 
     socket.on('map_update', function(msg) {
+        let id = 0
+
         console.log('Got new map');
         console.log(JSON.stringify(msg));
+        draw(msg, field);
+        document.getElementById("player_id").value = msg['turn_owner']
+
     });
 
     socket.on('log', function(msg) {
@@ -40,8 +44,8 @@
       let direction = document.getElementById("direction").value
       let room_id = 0
 
-      console.log(player_id)
-      console.log(direction)
+      //console.log(player_id)
+      //console.log(direction)
       dict = {'room_id': room_id, 'player_id': player_id, 'direction': direction}
       console.log(dict)
 
@@ -49,7 +53,45 @@
     }
 
 
+  function draw(data, field) {
+      ctx.clearRect(0,0, 500,500)
+      //var columns = 10;
+      cellSize = 20;
+      data = JSON.parse(data['map']);
+      var size = data.length;
 
+      //console.log('Data: ', data);
+      offset = Math.ceil((field.width / data.length));
+      margin = Math.ceil(offset / 4);
+
+
+      //console.log('Draw function: ');
+      //console.log('data.length: ', data.length, ';  Offset: ', offset, ';  cellSize: ', cellSize, ';   margin: ', margin)
+
+      var colors = {0: 'rgb(255,0,0)', 1: 'rgb(0,255,0)', 2: 'rgb(0,0,255)', 3: 'rgb(255,255,0)'}
+
+      for (line = 0; line < size; ++line ){
+          for (column = 0; column < size; ++column ){
+              //console.log('Column: ', column);
+              //console.log('Cell value: ', data[line][column]);
+              if (data[line][column] != null ){
+                  console.log('data[line][column]: ', data[line][column])
+                  ctx.fillStyle = colors[data[line][column]]
+              } else {
+                  ctx.fillStyle = 'rgb(0,50,00)';
+              }
+
+
+              ctx.fillRect(line*offset + margin, column*offset + margin,cellSize, cellSize);
+              //console.log('Offset: ', offset);
+
+
+
+
+
+          }
+      }
+  }
 
   </script>
 

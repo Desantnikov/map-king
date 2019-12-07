@@ -3,17 +3,21 @@ from flask_cors import cross_origin, CORS
 from flask_socketio import SocketIO, join_room, emit, send
 import json
 
-from logger import Logger
+import sys
+from loguru import logger
 from room import Room
+from json_encoder import UniversalJsonEncoder
 from config import MAP_SETTINGS, MAP_DEFAULTS, DIRECTIONS
 
 app = Flask(__name__)
 
+
+
+
 CORS(app, resources={r'/*': {'origins': '*'}})
-socketio = SocketIO(app, cors_allowed_origins="*")
+socketio = SocketIO(app, cors_allowed_origins="*", log=logger)
 
 rooms = []
-log = Logger(socketio)
 
 
 
@@ -26,12 +30,14 @@ def index():
 @app.route('/room/new', methods=['GET'])
 @cross_origin()
 def create_room():
-    pre_configured = [len(rooms), log]
+    #pre_configured = [len(rooms), logger]
     settings = [request.args.get(*parameter) for parameter in zip(MAP_SETTINGS, MAP_DEFAULTS)]
-    parameters = settings + pre_configured
+    parameters = settings + [len(rooms)] #pre_configured  # move to separate func
 
     rooms.append(Room(*parameters))  # width, height, players, room_id, logger
-    log.write(f'Room with ID {rooms[-1].id}  and parameters {{param, val for param, val in parameters}} created:  ')
+
+    ##logger.info(f'rooms: {len(rooms)}')
+
     return redirect(f'/room/{rooms[-1].id}')
 
 
@@ -54,49 +60,22 @@ def get_map(data):
     send_updated_map(room_id)
 
 @socketio.on('turn')
-def turn(data):  # get from socket query
-    room_id = data.get('room_id')
-    player_id = data.get('player_id')
+def turn(data):
     direction = data.get('direction')
 
-    log.write(f'room_id: {room_id}; player_id: {player_id}; direction: {direction}')
+    room_id, player_id = int(data.get('room_id')), int(data.get('player_id'))  # Necessary?
 
-    #if not all([room_id, player_id, direction]):
-    #    err = f'Failed to get one of mandatory parameters: room - {room_id}, ' \
-    #          f'player - {player_id}, direction - {direction}'
-    #    log.error(err)
-    #    raise KeyError(err)
+    logger.success(f'Input parameters are valid, starting turn;')
+    rooms[room_id].turn(player_id, direction)
 
-    try:
-        room_id, player_id = int(room_id), int(player_id)  # Necessary?
-        if direction not in DIRECTIONS:
-            err = f'Wrong direction: {direction}'
-            log.error(err)
-            raise ValueError(err)
-    except TypeError:
-        log.error(f'Got non int-convertable room_id ({roomd_id}) and player_id ({player_id})')
+    send_updated_map(room_id)
 
-
-    room = rooms[room_id]
-    log.write(f'Player {player_id}; stepped {direction};')
-
-    while room.steps_left:
-        log.write(f'Starting steps in loop, {room.steps_left} steps left, player_id {player_id} , room_id {room_id}')
-        rooms[room_id].turn(player_id, direction)
-        log.write(f'Player {player_id} stepped {direction}; {room.steps_left} steps left')
-        send_updated_map(room_id)
-
-    log.write(f'Player {player_id} ends turn')
 
 
 
 def send_updated_map(room_id):
-    room = rooms[room_id]
-    socketio.emit('map_update', {'map': json.dumps(room.get_map()), #default=room.map.serializer),
-                                 'turn_owner': room.get_turn_owner()})
-
-
-
+    socketio.emit('map_update', {'map': json.dumps(rooms[room_id].get_map(), cls=UniversalJsonEncoder),
+                                 'turn_owner': rooms[room_id].turn_owner_queue[0]})
 
 def socket_send_log(msg):
     socketio.emit('log', msg)
