@@ -2,7 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c957b81c-a749-499a-ab76-9ae3342143a5" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/cell.py" beforeDir="false" afterPath="$PROJECT_DIR$/cell.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/events.py" beforeDir="false" afterPath="$PROJECT_DIR$/events.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/json_encoder.py" beforeDir="false" afterPath="$PROJECT_DIR$/json_encoder.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/play.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/play.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -31,8 +34,8 @@
           <entry key="html" value="13" />
           <entry key="index" value="1" />
           <entry key="md" value="2" />
-          <entry key="py" value="107" />
-          <entry key="pyi" value="1" />
+          <entry key="py" value="110" />
+          <entry key="pyi" value="2" />
           <entry key="txt" value="8" />
           <entry key="windows" value="6" />
         </counts>
@@ -42,41 +45,41 @@
           <entry key="HTML" value="14" />
           <entry key="Markdown" value="2" />
           <entry key="PLAIN_TEXT" value="23" />
-          <entry key="Python" value="107" />
-          <entry key="PythonStub" value="1" />
+          <entry key="Python" value="110" />
+          <entry key="PythonStub" value="2" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="Procfile" value="232" />
-          <entry key="dummy" value="14" />
+          <entry key="dummy" value="41" />
           <entry key="gitignore" value="26" />
-          <entry key="html" value="2822" />
-          <entry key="py" value="27953" />
+          <entry key="html" value="3011" />
+          <entry key="py" value="30765" />
           <entry key="txt" value="189" />
           <entry key="windows" value="127" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="HTML" value="2822" />
-          <entry key="PLAIN_TEXT" value="588" />
-          <entry key="Python" value="27953" />
+          <entry key="HTML" value="3011" />
+          <entry key="PLAIN_TEXT" value="615" />
+          <entry key="Python" value="30765" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="136">
-              <caret line="33" column="85" selection-start-line="33" selection-start-column="85" selection-end-line="33" selection-end-column="85" />
+            <state relative-caret-position="408">
+              <caret line="72" column="37" selection-start-line="72" selection-start-column="37" selection-end-line="72" selection-end-column="37" />
               <folding>
                 <element signature="e#0#59#0" expanded="true" />
-                <marker date="1577895727844" expanded="true" signature="361:364" ph="..." />
-                <marker date="1577895727844" expanded="true" signature="1901:1903" ph="..." />
+                <marker date="1577911171517" expanded="true" signature="361:400" ph="..." />
+                <marker date="1577911171517" expanded="true" signature="1976:1977" ph="..." />
               </folding>
             </state>
           </provider>
@@ -85,13 +88,13 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/room.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="374">
-              <caret line="40" column="42" lean-forward="true" selection-start-line="40" selection-start-column="42" selection-end-line="40" selection-end-column="42" />
+            <state relative-caret-position="563">
+              <caret line="56" lean-forward="true" selection-start-line="56" selection-end-line="56" />
               <folding>
                 <element signature="e#0#29#0" expanded="true" />
-                <marker date="1577899324156" expanded="true" signature="887:896" ph="..." />
-                <marker date="1577899324156" expanded="true" signature="887:1001" ph="..." />
-                <marker date="1577899324156" expanded="true" signature="2142:2240" ph="..." />
+                <marker date="1577910578127" expanded="true" signature="709:718" ph="..." />
+                <marker date="1577910578127" expanded="true" signature="816:821" ph="..." />
+                <marker date="1577910578127" expanded="true" signature="1849:1855" ph="..." />
               </folding>
             </state>
           </provider>
@@ -100,10 +103,36 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/map.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
-              <caret line="33" column="41" selection-start-line="33" selection-start-column="41" selection-end-line="33" selection-end-column="41" />
+            <state relative-caret-position="255">
+              <caret line="30" column="23" lean-forward="true" selection-start-line="30" selection-start-column="23" selection-end-line="30" selection-end-column="23" />
               <folding>
-                <element signature="e#0#25#0" expanded="true" />
+                <element signature="e#0#40#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/events.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="340">
+              <caret line="20" lean-forward="true" selection-start-line="20" selection-end-line="20" />
+              <folding>
+                <marker date="1577910831797" expanded="true" signature="58:63" ph="..." />
+                <marker date="1577910831797" expanded="true" signature="159:160" ph="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/json_encoder.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="204">
+              <caret line="12" column="16" selection-start-line="12" selection-start-column="16" selection-end-line="12" selection-end-column="16" />
+              <folding>
+                <element signature="e#0#33#0" expanded="true" />
+                <marker date="1577911171439" expanded="true" signature="129:134" ph="..." />
               </folding>
             </state>
           </provider>
@@ -112,27 +141,14 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/cell.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="27" selection-start-line="27" selection-end-line="27" />
+            <state relative-caret-position="274">
+              <caret line="20" column="4" lean-forward="true" selection-start-line="20" selection-start-column="4" selection-end-line="20" selection-end-column="4" />
               <folding>
                 <element signature="e#0#25#0" expanded="true" />
-                <marker date="1577899586629" expanded="true" signature="109:114" ph="..." />
-                <marker date="1577899586629" expanded="true" signature="443:489" ph="..." />
-                <marker date="1577899586629" expanded="true" signature="526:531" ph="..." />
-                <marker date="1577899586629" expanded="true" signature="556:565" ph="..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/json_encoder.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
-              <caret line="14" column="16" selection-start-line="14" selection-start-column="16" selection-end-line="14" selection-end-column="16" />
-              <folding>
-                <element signature="e#0#33#0" expanded="true" />
-                <marker date="1577899443794" expanded="true" signature="129:134" ph="..." />
+                <marker date="1577902376045" expanded="true" signature="110:115" ph="..." />
+                <marker date="1577902376045" expanded="true" signature="443:489" ph="..." />
+                <marker date="1577902376045" expanded="true" signature="526:531" ph="..." />
+                <marker date="1577902376045" expanded="true" signature="556:565" ph="..." />
               </folding>
             </state>
           </provider>
@@ -141,8 +157,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/play.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="391">
-              <caret line="77" column="18" selection-start-line="77" selection-start-column="18" selection-end-line="77" selection-end-column="18" />
+            <state relative-caret-position="303">
+              <caret line="30" column="50" selection-start-line="30" selection-start-column="50" selection-end-line="30" selection-end-column="50" />
             </state>
           </provider>
         </entry>
@@ -150,16 +166,18 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/player.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="146">
-              <caret line="11" column="8" selection-start-line="11" selection-start-column="8" selection-end-line="11" selection-end-column="8" />
+            <state relative-caret-position="180">
+              <caret line="39" column="5" selection-start-line="39" selection-start-column="5" selection-end-line="39" selection-end-column="5" />
               <folding>
                 <element signature="e#0#10#0" expanded="true" />
-                <marker date="1577895602368" expanded="true" signature="227:232" ph="..." />
-                <marker date="1577895602368" expanded="true" signature="429:459" ph="..." />
-                <marker date="1577895602368" expanded="true" signature="523:528" ph="..." />
-                <marker date="1577895602368" expanded="true" signature="876:916" ph="..." />
-                <marker date="1577895602368" expanded="true" signature="956:957" ph="..." />
-                <marker date="1577895602368" expanded="true" signature="1028:1296" ph="..." />
+                <marker date="1577909347346" expanded="true" signature="161:166" ph="..." />
+                <marker date="1577909347346" expanded="true" signature="277:307" ph="..." />
+                <marker date="1577909347346" expanded="true" signature="371:376" ph="..." />
+                <marker date="1577909347346" expanded="true" signature="648:735" ph="..." />
+                <marker date="1577909347346" expanded="true" signature="774:780" ph="..." />
+                <marker date="1577909347346" expanded="true" signature="775:776" ph="..." />
+                <marker date="1577909347346" expanded="true" signature="812:1150" ph="..." />
+                <marker date="1577909347346" expanded="true" signature="908:991" ph="..." />
               </folding>
             </state>
           </provider>
@@ -168,8 +186,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/config.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret column="18" selection-start-column="18" selection-end-column="18" />
+            <state relative-caret-position="357">
+              <caret line="21" column="21" lean-forward="true" selection-start-line="21" selection-start-column="21" selection-end-line="21" selection-end-column="21" />
             </state>
           </provider>
         </entry>
@@ -177,10 +195,9 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/map_object.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="12" column="9" selection-start-line="12" selection-start-column="9" selection-end-line="12" selection-end-column="9" />
+            <state>
               <folding>
-                <marker date="1577894649718" expanded="true" signature="43:48" ph="..." />
+                <marker date="1577900345372" expanded="true" signature="16:21" ph="..." />
               </folding>
             </state>
           </provider>
@@ -197,11 +214,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>self.steps_left</find>
-      <find>self.turn_owner_id</find>
-      <find>step was</find>
-      <find>already</find>
-      <find>json_enc</find>
       <find>process</find>
       <find>and par</find>
       <find>param, val</find>
@@ -226,6 +238,11 @@
       <find>f'</find>
       <find>occupied_by</find>
       <find>.owner</find>
+      <find>tried to</find>
+      <find>cell is al</find>
+      <find>x</find>
+      <find>self.x</find>
+      <find>self.y</find>
       <find>Cell(</find>
     </findStrings>
     <replaceStrings>
@@ -244,6 +261,9 @@
       <replace>logger.info</replace>
       <replace>logger</replace>
       <replace>#logger.info</replace>
+      <replace>new_x</replace>
+      <replace>prev_x</replace>
+      <replace>prev_y</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -276,14 +296,16 @@
         <option value="$PROJECT_DIR$/requirements.txt" />
         <option value="$PROJECT_DIR$/generic_map_object.py" />
         <option value="$PROJECT_DIR$/map_object.py" />
-        <option value="$PROJECT_DIR$/player.py" />
-        <option value="$PROJECT_DIR$/main.py" />
-        <option value="$PROJECT_DIR$/templates/play.html" />
-        <option value="$PROJECT_DIR$/room.py" />
-        <option value="$PROJECT_DIR$/map.py" />
-        <option value="$PROJECT_DIR$/config.py" />
         <option value="$PROJECT_DIR$/cell.py" />
+        <option value="$PROJECT_DIR$/event.py" />
+        <option value="$PROJECT_DIR$/config.py" />
+        <option value="$PROJECT_DIR$/player.py" />
+        <option value="$PROJECT_DIR$/map.py" />
+        <option value="$PROJECT_DIR$/room.py" />
+        <option value="$PROJECT_DIR$/events.py" />
         <option value="$PROJECT_DIR$/json_encoder.py" />
+        <option value="$PROJECT_DIR$/templates/play.html" />
+        <option value="$PROJECT_DIR$/main.py" />
       </list>
     </option>
   </component>
@@ -304,11 +326,6 @@
             <path>
               <item name="map-king" type="b2602c69:ProjectViewProjectNode" />
               <item name="map-king" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="map-king" type="b2602c69:ProjectViewProjectNode" />
-              <item name="map-king" type="462c0819:PsiDirectoryNode" />
-              <item name="templates" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -404,10 +421,10 @@
     <editor active="true" />
     <layout>
       <window_info id="Favorites" order="0" side_tool="true" />
-      <window_info content_ui="combo" id="Project" order="1" visible="true" weight="0.1891892" />
+      <window_info active="true" content_ui="combo" id="Project" order="1" visible="true" weight="0.1891892" />
       <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Terminal" order="0" sideWeight="0.49682036" weight="0.32886904" />
-      <window_info active="true" anchor="bottom" id="Event Log" order="1" sideWeight="0.5007949" side_tool="true" visible="true" weight="0.23511904" />
+      <window_info anchor="bottom" id="Event Log" order="1" sideWeight="0.5007949" side_tool="true" weight="0.23511904" />
       <window_info anchor="bottom" id="GitLabIntegration" order="2" />
       <window_info anchor="bottom" id="Python Console" order="3" />
       <window_info anchor="bottom" id="Message" order="4" />
@@ -424,16 +441,16 @@
     </layout>
     <layout-to-restore>
       <window_info id="Favorites" order="0" side_tool="true" />
-      <window_info active="true" content_ui="combo" id="Project" order="1" visible="true" weight="0.1891892" />
+      <window_info content_ui="combo" id="Project" order="1" visible="true" weight="0.1891892" />
       <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Terminal" order="0" sideWeight="0.49682036" weight="0.32886904" />
-      <window_info anchor="bottom" id="Event Log" order="1" sideWeight="0.50317967" side_tool="true" weight="0.32886904" />
+      <window_info active="true" anchor="bottom" id="Event Log" order="1" sideWeight="0.5007949" side_tool="true" visible="true" weight="0.23511904" />
       <window_info anchor="bottom" id="GitLabIntegration" order="2" />
       <window_info anchor="bottom" id="Python Console" order="3" />
       <window_info anchor="bottom" id="Message" order="4" />
-      <window_info anchor="bottom" id="Find" order="5" />
+      <window_info anchor="bottom" id="Find" order="5" sideWeight="0.49920508" weight="0.32886904" />
       <window_info anchor="bottom" id="Version Control" order="6" />
-      <window_info anchor="bottom" id="Run" order="7" weight="0.32886904" />
+      <window_info anchor="bottom" id="Run" order="7" sideWeight="0.49761525" weight="0.32886904" />
       <window_info anchor="bottom" id="Debug" order="8" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="9" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="10" weight="0.4" />
@@ -553,13 +570,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37-32/Lib/json/encoder.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1751">
-          <caret line="103" column="24" selection-start-line="103" selection-start-column="24" selection-end-line="103" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/templates/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="170">
@@ -571,13 +581,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="187">
           <caret line="15" selection-start-line="15" selection-end-line="15" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../heroes/venv/Lib/site-packages/loguru/__init__.pyi">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="155">
-          <caret line="334" column="8" selection-start-line="334" selection-start-column="8" selection-end-line="334" selection-end-column="8" />
         </state>
       </provider>
     </entry>
@@ -595,102 +598,128 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37-32/Lib/json/encoder.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="455">
+          <caret line="159" column="8" selection-start-line="159" selection-start-column="8" selection-end-line="159" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/map_object.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="9" selection-start-line="12" selection-start-column="9" selection-end-line="12" selection-end-column="9" />
+        <state>
           <folding>
-            <marker date="1577894649718" expanded="true" signature="43:48" ph="..." />
+            <marker date="1577900345372" expanded="true" signature="16:21" ph="..." />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/play.html">
+    <entry file="file://$PROJECT_DIR$/../heroes/venv/Lib/site-packages/loguru/__init__.pyi">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="77" column="18" selection-start-line="77" selection-start-column="18" selection-end-line="77" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/player.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="146">
-          <caret line="11" column="8" selection-start-line="11" selection-start-column="8" selection-end-line="11" selection-end-column="8" />
-          <folding>
-            <element signature="e#0#10#0" expanded="true" />
-            <marker date="1577895602368" expanded="true" signature="227:232" ph="..." />
-            <marker date="1577895602368" expanded="true" signature="429:459" ph="..." />
-            <marker date="1577895602368" expanded="true" signature="523:528" ph="..." />
-            <marker date="1577895602368" expanded="true" signature="876:916" ph="..." />
-            <marker date="1577895602368" expanded="true" signature="956:957" ph="..." />
-            <marker date="1577895602368" expanded="true" signature="1028:1296" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="33" column="85" selection-start-line="33" selection-start-column="85" selection-end-line="33" selection-end-column="85" />
-          <folding>
-            <element signature="e#0#59#0" expanded="true" />
-            <marker date="1577895727844" expanded="true" signature="361:364" ph="..." />
-            <marker date="1577895727844" expanded="true" signature="1901:1903" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/room.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="40" column="42" lean-forward="true" selection-start-line="40" selection-start-column="42" selection-end-line="40" selection-end-column="42" />
-          <folding>
-            <element signature="e#0#29#0" expanded="true" />
-            <marker date="1577899324156" expanded="true" signature="887:896" ph="..." />
-            <marker date="1577899324156" expanded="true" signature="887:1001" ph="..." />
-            <marker date="1577899324156" expanded="true" signature="2142:2240" ph="..." />
-          </folding>
+        <state relative-caret-position="155">
+          <caret line="202" column="8" selection-start-line="202" selection-start-column="8" selection-end-line="202" selection-end-column="8" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/config.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="18" selection-start-column="18" selection-end-column="18" />
+        <state relative-caret-position="357">
+          <caret line="21" column="21" lean-forward="true" selection-start-line="21" selection-start-column="21" selection-end-line="21" selection-end-column="21" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/map.py">
+    <entry file="file://$PROJECT_DIR$/room.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="33" column="41" selection-start-line="33" selection-start-column="41" selection-end-line="33" selection-end-column="41" />
+        <state relative-caret-position="563">
+          <caret line="56" lean-forward="true" selection-start-line="56" selection-end-line="56" />
           <folding>
-            <element signature="e#0#25#0" expanded="true" />
+            <element signature="e#0#29#0" expanded="true" />
+            <marker date="1577910578127" expanded="true" signature="709:718" ph="..." />
+            <marker date="1577910578127" expanded="true" signature="816:821" ph="..." />
+            <marker date="1577910578127" expanded="true" signature="1849:1855" ph="..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/cell.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="27" selection-start-line="27" selection-end-line="27" />
+        <state relative-caret-position="274">
+          <caret line="20" column="4" lean-forward="true" selection-start-line="20" selection-start-column="4" selection-end-line="20" selection-end-column="4" />
           <folding>
             <element signature="e#0#25#0" expanded="true" />
-            <marker date="1577899586629" expanded="true" signature="109:114" ph="..." />
-            <marker date="1577899586629" expanded="true" signature="443:489" ph="..." />
-            <marker date="1577899586629" expanded="true" signature="526:531" ph="..." />
-            <marker date="1577899586629" expanded="true" signature="556:565" ph="..." />
+            <marker date="1577902376045" expanded="true" signature="110:115" ph="..." />
+            <marker date="1577902376045" expanded="true" signature="443:489" ph="..." />
+            <marker date="1577902376045" expanded="true" signature="526:531" ph="..." />
+            <marker date="1577902376045" expanded="true" signature="556:565" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/events.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="20" lean-forward="true" selection-start-line="20" selection-end-line="20" />
+          <folding>
+            <marker date="1577910831797" expanded="true" signature="58:63" ph="..." />
+            <marker date="1577910831797" expanded="true" signature="159:160" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/player.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="39" column="5" selection-start-line="39" selection-start-column="5" selection-end-line="39" selection-end-column="5" />
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
+            <marker date="1577909347346" expanded="true" signature="161:166" ph="..." />
+            <marker date="1577909347346" expanded="true" signature="277:307" ph="..." />
+            <marker date="1577909347346" expanded="true" signature="371:376" ph="..." />
+            <marker date="1577909347346" expanded="true" signature="648:735" ph="..." />
+            <marker date="1577909347346" expanded="true" signature="774:780" ph="..." />
+            <marker date="1577909347346" expanded="true" signature="775:776" ph="..." />
+            <marker date="1577909347346" expanded="true" signature="812:1150" ph="..." />
+            <marker date="1577909347346" expanded="true" signature="908:991" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/map.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="30" column="23" lean-forward="true" selection-start-line="30" selection-start-column="23" selection-end-line="30" selection-end-column="23" />
+          <folding>
+            <element signature="e#0#40#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/json_encoder.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="14" column="16" selection-start-line="14" selection-start-column="16" selection-end-line="14" selection-end-column="16" />
+        <state relative-caret-position="204">
+          <caret line="12" column="16" selection-start-line="12" selection-start-column="16" selection-end-line="12" selection-end-column="16" />
           <folding>
             <element signature="e#0#33#0" expanded="true" />
-            <marker date="1577899443794" expanded="true" signature="129:134" ph="..." />
+            <marker date="1577911171439" expanded="true" signature="129:134" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/play.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="303">
+          <caret line="30" column="50" selection-start-line="30" selection-start-column="50" selection-end-line="30" selection-end-column="50" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="408">
+          <caret line="72" column="37" selection-start-line="72" selection-start-column="37" selection-end-line="72" selection-end-column="37" />
+          <folding>
+            <element signature="e#0#59#0" expanded="true" />
+            <marker date="1577911171517" expanded="true" signature="361:400" ph="..." />
+            <marker date="1577911171517" expanded="true" signature="1976:1977" ph="..." />
           </folding>
         </state>
       </provider>

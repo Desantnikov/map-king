@@ -7,7 +7,8 @@
 <body>
   <p>Map-king game</p>
   <button onclick="turn()">Turn</button>
-  <p id="player_id">Turn of Player 0</p>
+  <p>Turn of Player #</p>
+  <p id="player_id">0</p>
   <textarea id="direction">DOWN</textarea>
   <br>
   <canvas id='field'>Field</canvas>
@@ -20,34 +21,33 @@
     var field = document.getElementById('field'),
       ctx = field.getContext('2d');
 
+    var turn_owner = 0
+
     field.width = 500;
     field.height = 500;
     ctx.strokeRect(0,0, 500, 500);
 
+    socket.on('test', function(msg) {
+        console.log('Test:', msg);
+    });
+
     socket.on('map_update', function(msg) {
-        let id = 0
-
-        console.log('Got new map');
-        console.log(JSON.stringify(msg));
+        console.log('Map updated: ', JSON.stringify(msg));
         draw(msg, field);
-        document.getElementById("player_id").value = msg['turn_owner']
-
+        turn_owner = msg['turn_owner']
+        document.getElementById("player_id").innerHTML = turn_owner
     });
 
-    socket.on('log', function(msg) {
-        console.log('Logs received: ');
-        console.log(JSON.stringify(msg));
-    });
 
     function turn() {
-      let player_id = document.getElementById("player_id").value
+      //let player_id = document.getElementById("player_id").innerHTML
       let direction = document.getElementById("direction").value
       let room_id = 0
 
-      //console.log(player_id)
+      console.log(player_id)
       //console.log(direction)
-      dict = {'room_id': room_id, 'player_id': player_id, 'direction': direction}
-      console.log(dict)
+      dict = {'room_id': room_id, 'player_id': turn_owner, 'direction': direction}
+      console.log('Sending: ', dict)
 
       socket.emit('turn', dict)
     }
@@ -75,7 +75,7 @@
               //console.log('Column: ', column);
               //console.log('Cell value: ', data[line][column]);
               if (data[line][column] != null ){
-                  console.log('data[line][column]: ', data[line][column])
+                  //console.log('data[line][column]: ', data[line][column])
                   ctx.fillStyle = colors[data[line][column]]
               } else {
                   ctx.fillStyle = 'rgb(0,50,00)';
