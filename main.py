@@ -1,66 +1,105 @@
-from flask import Flask, request, redirect, render_template
-from flask_cors import cross_origin
+from flask import Flask, redirect, render_template, request
+from flask_cors import cross_origin, CORS
 from flask_socketio import SocketIO, join_room, emit, send
 import json
 
-from models.room import Room
-from controllers.room import RoomController
+from logger import Logger
+from room import Room
+from config import MAP_SETTINGS, MAP_DEFAULTS, DIRECTIONS
 
 app = Flask(__name__)
-socketio = SocketIO(app)
 
-#roomControllers = {}
+CORS(app, resources={r'/*': {'origins': '*'}})
+socketio = SocketIO(app, cors_allowed_origins="*")
 
-roomControllers = []
+rooms = []
+log = Logger(socketio)
 
-counter = 0
+
 
 @app.route('/')
 @cross_origin()
-def index():  # test
-    return render_template('index.html')
-
+def index():
+    return "Please use /room/new"
 
 
 @app.route('/room/new', methods=['GET'])
 @cross_origin()
 def create_room():
-    print('create_room func 1')
-    map_size = 10#int(request.args.get('size', 10))
-    players_number = 3#int(request.args.get('players_number', 2))
-    room_id = len(roomControllers)
-    roomControllers.append(RoomController(Room(room_id, players_number, 'map-king', map_size)))
+    pre_configured = [len(rooms), log]
+    settings = [request.args.get(*parameter) for parameter in zip(MAP_SETTINGS, MAP_DEFAULTS)]
+    parameters = settings + pre_configured
 
-    return redirect('/room/{}'.format(room_id))
+    rooms.append(Room(*parameters))  # width, height, players, room_id, logger
+    log.write(f'Room with ID {rooms[-1].id}  and parameters {{param, val for param, val in parameters}} created:  ')
+    return redirect(f'/room/{rooms[-1].id}')
+
+
+@socketio.on('connect')
+def connect():
+    room_id = 0
+    send_updated_map(room_id)
 
 
 @app.route('/room/<int:room_id>')
 @cross_origin()
 def play(room_id):
+
     return render_template('play.html')
 
+
 @socketio.on('get_map')
-def join(data): # get from socket query
-
-    socketio.emit('map', roomControllers[0].get_map())
-    socketio.emit('turn_of_player', roomControllers[0].check_turn())
-
-    return "turn"
+def get_map(data):
+    room_id = data['room_id']  # TODO: Use socktio.rooms
+    send_updated_map(room_id)
 
 @socketio.on('turn')
-def turn(data): # get from socket query
-    print('data: ' + str(data))
-    #print(f'data2:   {data["player_id"]}')
-    #socketio.emit('test', ' turn func')
-    #cells = ((1,2), (3,4), (5,6))  # parse cords of cells from query
-    roomControllers[0].turn(data['player_id'], data['cell_x'], data['cell_y'])
+def turn(data):  # get from socket query
+    room_id = data.get('room_id')
+    player_id = data.get('player_id')
+    direction = data.get('direction')
 
-    socketio.emit('map', roomControllers[0].get_map())
-    socketio.emit('turn_of_player', roomControllers[0].check_turn())
+    log.write(f'room_id: {room_id}; player_id: {player_id}; direction: {direction}')
 
-    return "turn"
+    #if not all([room_id, player_id, direction]):
+    #    err = f'Failed to get one of mandatory parameters: room - {room_id}, ' \
+    #          f'player - {player_id}, direction - {direction}'
+    #    log.error(err)
+    #    raise KeyError(err)
+
+    try:
+        room_id, player_id = int(room_id), int(player_id)  # Necessary?
+        if direction not in DIRECTIONS:
+            err = f'Wrong direction: {direction}'
+            log.error(err)
+            raise ValueError(err)
+    except TypeError:
+        log.error(f'Got non int-convertable room_id ({roomd_id}) and player_id ({player_id})')
 
 
+    room = rooms[room_id]
+    log.write(f'Player {player_id}; stepped {direction};')
+
+    while room.steps_left:
+        log.write(f'Starting steps in loop, {room.steps_left} steps left, player_id {player_id} , room_id {room_id}')
+        rooms[room_id].turn(player_id, direction)
+        log.write(f'Player {player_id} stepped {direction}; {room.steps_left} steps left')
+        send_updated_map(room_id)
+
+    log.write(f'Player {player_id} ends turn')
+
+
+
+def send_updated_map(room_id):
+    room = rooms[room_id]
+    socketio.emit('map_update', {'map': json.dumps(room.get_map()), #default=room.map.serializer),
+                                 'turn_owner': room.get_turn_owner()})
+
+
+
+
+def socket_send_log(msg):
+    socketio.emit('log', msg)
 
 if __name__ == '__main__':
-    app.run()
+    app.run('0.0.0.0')

@@ -7,52 +7,49 @@
 <body>
   <p>Some sample code to make sure Flask-SocketIO works...</p>
   <button onclick="createGame()">Create Game</button>
-  <button onclick="joinGame()">Join Game (id 0 hardcoded)</button>
+  <button onclick="turn()">Turn (id 0 hardcoded)</button>
   <button onclick="test()">test</button>
+  <textarea id="player_id">0</textarea>
+  <textarea id="direction">DOWN</textarea>
 
 <script src="https://cdn.socket.io/socket.io-1.2.1.js"></script>
 <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
   <script type="text/javascript" charset="utf-8">
     var socket = io.connect('http://' + document.domain + ':' + location.port, {transports: ['websocket'] });
+    //console.log('http://' + document.domain + ':' + location.port)
     //socket = io.connect('https://' + document.domain);
     // verify our websocket connection is established
-    socket.on('connect', function() {
-        console.log('Websocket connected!');
-        socket.emit('join', 0);
-    });
-    socket.on('message', function(data) {
-        console.log(data);
-    });
+    //socket.on('connect', function() {
+    //    console.log('Websocket connected!');
+    //    socket.emit('get_map', 0);
+    //});
 
-    socket.on('map', function(msg) {
-        console.log('Joined room');
+
+    socket.on('map_update', function(msg) {
+        console.log('Got new map');
         console.log(JSON.stringify(msg));
     });
 
-    socket.on('turn_of_player', function(msg) {
-        console.log('Turn of playera');
+    socket.on('log', function(msg) {
+        console.log('Logs received: ');
         console.log(JSON.stringify(msg));
     });
 
-    socket.on('test', function(msg) {
-        console.log('Message:');
-        console.log(msg);
-    });
+    function turn() {
+      let player_id = document.getElementById("player_id").value
+      let direction = document.getElementById("direction").value
+      let room_id = 0
 
-    function createGame() {
-      console.log('Emitting turn.');
-      socket.emit('turn', {room_id: 0, player_id: 0, cells: 1});
+      console.log(player_id)
+      console.log(direction)
+      dict = {'room_id': room_id, 'player_id': player_id, 'direction': direction}
+      console.log(dict)
+
+      socket.emit('turn', dict)
     }
 
-    function joinGame() {
-      console.log('Joining game game...');
-      socket.emit('join', 0);
-    }
 
-    function test() {
-      console.log('Turn');
-      socket.emit('turn', {player_id: 0, cell_x: 0, cell_y: 1});
-    }
+
 
   </script>
 
