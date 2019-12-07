@@ -39,7 +39,7 @@ def create_room():
 def play(room_id):
     return render_template('play.html')
 
-@socketio.on('join')
+@socketio.on('get_map')
 def join(data): # get from socket query
 
     socketio.emit('map', roomControllers[0].get_map())
