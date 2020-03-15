@@ -1,14 +1,12 @@
 import json
-from flask_jwt_extended import jwt_refresh_token_required, get_jwt_identity, get_raw_jwt
+from flask_jwt_extended import jwt_refresh_token_required, get_jwt_identity, get_raw_jwt, jwt_required
 from flask_restful import Resource, reqparse
 
-from .helper_jwt import get_token_response
+from .helper_api import get_token_response, get_unexpected_error_response, get_token_model
 
 parser = reqparse.RequestParser()
 parser.add_argument('username', help='This field cannot be blank', required=True)
 parser.add_argument('password', help='This field cannot be blank', required=True)
-
-#parser.add_argument('jti', help='Used for revoking tokens', required=False)
 
 
 class UserModelResource(Resource):
@@ -18,11 +16,10 @@ class UserModelResource(Resource):
         self.model = UserModel
 
 
-class RevokedTokenModelResource(Resource):
-    def __init__(self):
-        from db.models.revoked_token import RevokedTokenModel
-        super().__init__()
-        self.model = RevokedTokenModel
+# class RevokedTokenModelResource(Resource):
+#     def __init__(self):
+#         super().__init__()
+#         self.model = get_token_model()
 
 
 class UserRegistration(UserModelResource):
@@ -41,11 +38,7 @@ class UserRegistration(UserModelResource):
             return get_token_response(new_user)
 
         except Exception as e:
-            response_object = {
-                'status': 'fail',
-                'message': 'Some error occurred. Please try again.'
-            }
-            return json.dumps(response_object), 401
+            return get_unexpected_error_response(e)
 
 
 class UserLogin(UserModelResource):
@@ -63,20 +56,58 @@ class UserLogin(UserModelResource):
             return {'message': 'Wrong credentials'}
 
 
-class UserLogoutAccess(RevokedTokenModelResource):
+class UserLogoutAccess(Resource):
+    def __init__(self):
+        self.model = get_token_model(token_type='access')
+
+    @jwt_required
     def post(self):
-        # new_revoked_token = self.model(username=data['jti'])
-        # try:
-        #     new_user.save_to_db()
-        #     return get_token_response(new_user)
-        # jti = get_raw_jwt()['jti']
-        # self.model.add(jti)
-        return {'message': 'User logout'}
+        try:
+            jti = get_raw_jwt()['jti']
+            token_to_revoke = self.model(jti=jti)
+
+            if not token_to_revoke.is_revoked():
+                token_to_revoke.revoke()
+                response_object = {
+                    'status': 'Success',
+                    'message': 'Token added to revoked list'
+                }
+                return json.dumps(response_object), 200
+
+            response_object = {
+                'status': 'Fail',
+                'message': "Can't revoke revoked token"
+            }
+            return json.dumps(response_object), 400
+        except Exception as e:
+            return get_unexpected_error_response(e)
 
 
 class UserLogoutRefresh(Resource):
+    def __init__(self):
+        self.model = get_token_model(token_type='refresh')
+
+    @jwt_refresh_token_required
     def post(self):
-        return {'message': 'User logout'}
+        try:
+            jti = get_raw_jwt()['jti']
+            token_to_revoke = self.model(jti=jti)
+
+            if not token_to_revoke.is_revoked():
+                token_to_revoke.revoke()
+                response_object = {
+                    'status': 'Success',
+                    'message': 'Token added to revoked list'
+                }
+                return json.dumps(response_object), 200
+
+            response_object = {
+                'status': 'Fail',
+                'message': "Can't revoke revoked token"
+            }
+            return json.dumps(response_object), 400
+        except Exception as e:
+            return get_unexpected_error_response(e)
 
 
 class TokenRefresh(Resource):

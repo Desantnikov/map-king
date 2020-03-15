@@ -1,0 +1,32 @@
+import json
+from db.models.revoked_token import RevokedAccessTokenModel, RevokedRefreshTokenModel
+
+def get_token_response(user):
+    access_token = user.get_access_token()
+    refresh_token = user.get_refresh_token()
+
+    response_object = {
+        'status': 'Success',
+        'message': 'Successfully authenticated.',
+        'auth_token': access_token,
+        'refresh_token': refresh_token
+    }
+    return json.dumps(response_object), 200
+
+
+def get_unexpected_error_response(exception):
+    response_object = {
+        'status': 'fail',
+        'message': f'Unexpected error happened: {exception}'
+    }
+    return json.dumps(response_object), 401
+
+
+def get_token_model(token_type=None):
+    try:
+        model_map = {'refresh': RevokedRefreshTokenModel, 'access': RevokedAccessTokenModel}
+
+    except KeyError:
+        raise Exception(f"{token_type} model requested, only: {' ; '.join(model_map.keys())} are present")
+
+    return model_map[token_type]
