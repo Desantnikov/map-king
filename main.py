@@ -16,12 +16,12 @@ rooms = []
 @cross_origin()
 def index():
     return "Please use /room/new"
-
-@flask_app.route('/tables')
-@cross_origin()
-def tables():
-    from app import db
-    return f"Tables: {db.engine.table_names()} "
+#
+# @flask_app.route('/tables')
+# @cross_origin()
+# def tables():
+#     #from app import db
+#     return f"Tables: {db.engine.table_names()} "
 
 
 @flask_app.route('/room/new', methods=['GET'])
