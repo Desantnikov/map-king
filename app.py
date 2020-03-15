@@ -34,6 +34,15 @@ def api_init(app):
 def jwt_init(app):
     jwt_manager = JWTManager(app)
 
+    @jwt_manager.invalid_token_loader  # merge two functions into one?
+    def get_invalid_token_response(invalid_token):
+        token_type = invalid_token['type']
+        return json.dumps({
+            'status': 401,
+            'sub_status': 42,
+            'msg': 'The {} token has expired'.format(token_type)
+        }), 401
+
     @jwt_manager.expired_token_loader
     def get_token_expired_response(expired_token):
         token_type = expired_token['type']

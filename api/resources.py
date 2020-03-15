@@ -60,7 +60,7 @@ class UserLogoutAccess(Resource):
             jti = get_raw_jwt().get('jti')
             if not jti:
                 raise Exception('Blank JTI')
-            
+
             token_to_revoke = self.model(jti=jti)
 
             if not token_to_revoke.is_revoked():
