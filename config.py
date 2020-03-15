@@ -20,3 +20,6 @@ DEFAULT_HEALTH_LEVEL = 10
 DEFAULT_ATTACK_LEVEL = 1
 
 RESPONSE_CODES = {0: 'Targed died;', 1: 'Target survived fight;'}
+
+
+
