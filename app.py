@@ -12,7 +12,7 @@ from api.resources import UserRegistration, UserLogin, UserLogoutAccess, UserLog
     SecretResource#, DatabaseTables
 from db.db_config import SQLALCHEMY_DATABASE_URI, SQLALCHEMY_TRACK_MODIFICATIONS, SECRET_KEY
 from helpers import get_env_variable
-from db.models.user_model import UserModel
+# from db.models.user_model import UserModel
 
 
 def api_init(app):
