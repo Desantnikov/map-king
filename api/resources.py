@@ -10,7 +10,7 @@ parser.add_argument('password', help='This field cannot be blank', required=True
 
 class userModelResource(Resource):
     def __init__(self):
-        from db.models.user_model import UserModel  # looks not very good
+        from db.models.user_model import UserModel  # TODO: Find another way
         super().__init__()
         self.model = UserModel
 
