@@ -1,4 +1,5 @@
 import sys, os
+import json
 
 from flask import Flask
 from flask_cors import CORS
@@ -44,10 +45,25 @@ def db_init(app):
     return db
 
 
+def jwt_init(app):
+    jwt_manager = JWTManager(app)
+
+    @jwt_manager.expired_token_loader
+    def get_token_expired_response(expired_token):
+        token_type = expired_token['type']
+        return json.dumps({
+            'status': 401,
+            'sub_status': 42,
+            'msg': 'The {} token has expired'.format(token_type)
+        }), 401
+
+    return jwt_manager
+
+
 logger.add(sys.stdout, colorize=True)
 
 flask_app = Flask(__name__)
-jwt_manager = JWTManager(flask_app)
+jwt = jwt_init(flask_app)
 api = api_init(flask_app)
 db = db_init(flask_app)
 
