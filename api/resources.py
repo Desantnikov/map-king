@@ -122,3 +122,7 @@ class SecretResource(Resource):
             'answer': 42
         }
 
+# class DatabaseDebugResource(Resource):
+#     def get(self):
+#
+
