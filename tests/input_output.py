@@ -1,15 +1,36 @@
-from tests.helpers import check_token, random_string
+from helpers import PytestRegex as regex
+from helpers import random_string
+
+INPUT_OUTPUT_DICT = {}
+
+# ----------------------------------
+# Registration test
+INPUT = [['post', {'url': '/registration',
+                   'data': {'username': random_string(),
+                            'password': random_string()},
+                   'headers': None}]]
+
+EXPECTED_OUTPUT = [{'status': 'Success',
+                    'message': 'Successfully authenticated.',
+                    'auth_token': regex('.*'),
+                    'refresh_token': regex('.*')}]
+
+INPUT_OUTPUT_DICT.update({'registration': [INPUT[:], EXPECTED_OUTPUT[:]]})
+# ----------------------------------
 
 
-REGISTRATION_CHECK_INPUT = list()  # (type, {url, {data}, {headers}})
-REGISTRATION_CHECK_INPUT.append(('post', {'url': '/registration',
-                                          'data': {'username': random_string(),
-                                                   'password': random_string()},
-                                          'headers': None}))
+# Login test
+INPUT = [['post', {'url': '/login',
+                   'data': {'username': 'test',
+                            'password': 'test'},
+                   'headers': None}]]
+
+INPUT_OUTPUT_DICT.update({'login': [INPUT[:], EXPECTED_OUTPUT[:]]})
+# ----------------------------------
 
 
-REGISTRATION_CHECK_OUTPUT = list()
-REGISTRATION_CHECK_OUTPUT.append({'status': 'Success',
-                                  'message': 'Successfully authenticated.',
-                                  'auth_token': check_token,
-                                  'refresh_token': check_token})
+# JWT access test
+INPUT = [['get', {'url': '/', 'headers': None}]]
+EXPECTED_OUTPUT = ['Please use /room/new test']
+
+INPUT_OUTPUT_DICT.update({'jwt_access': [INPUT[:], EXPECTED_OUTPUT[:]]})

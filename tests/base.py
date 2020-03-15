@@ -1,30 +1,21 @@
-from abc import abstractmethod
-import requests
-import json
 import unittest
-import pytest
 
-MASTER_DOMAIN = 'http://map-kings.herokuapps.com'
-DEVELOPENT_DOMAIN = 'http://map-kings-development.herokuapps.com'
+import requests
 
-FUN_TYPE = type(lambda x: x)
+MASTER_DOMAIN = 'http://map-kings.herokuapp.com'
+DEVELOPENT_DOMAIN = 'http://map-kings-development.herokuapp.com'
 
 
 class BaseTest(unittest.TestCase):
-    def __init__(self, domain):
-        super().__init__()
-        self.domain = domain
-        self.input, self.output = self.get_input_output()
+    def __init__(self, *args, **kwargs):
+        self.domain = DEVELOPENT_DOMAIN
+        unittest.TestCase.__init__(self, *args, **kwargs)
 
-    @abstractmethod
-    def get_input_output(self):
-        return None, None
+    def get_request_data(self, step=0):
+        request_type, request_data = self.input_data[step] # ref before assignment
+        expected_response = self.expected_output[step]
 
-    def get_input_output_pair(self):
-        try:
-            return self.input.pop(0), self.output.pop(0)
-        except AttributeError:
-            return None, None
+        return request_type, request_data, expected_response
 
     def post_request(self, input_data, output_data):
         url = f"{self.domain}{input_data['url']}"
@@ -34,12 +25,28 @@ class BaseTest(unittest.TestCase):
         rsp = requests.post(url, data=request_data, headers=headers)
         response_data = rsp.json()
 
-        assert rsp.status_code // 100 == 2  # 2xx - OK
-        assert set(output_data.keys()) == set(response_data.keys())  # keys matched
-        # all values except functions matched
-        assert all([response_data[key] == value for key, value in output_data if not isinstance(value, FUN_TYPE)])
-        # all functions returned True for response data
-        assert all([value(response_data[key]) for key, value in output_data if isinstance(value, FUN_TYPE)])
+        self.assertTrue(199 < rsp.status_code < 300, 'Not 2xx code -> not ok')
+
+        for exp_item, act_item in zip(output_data.items(), response_data.items()):
+            self.assertTupleEqual(exp_item, act_item)
+
+        return response_data
+
+    def get_request(self, input_data, output_data):
+        url = f"{self.domain}{input_data['url']}"
+        headers = input_data['headers']
+
+        rsp = requests.get(url, headers=headers)
+        if not isinstance(output_data, dict):
+            response_data = rsp.text
+            self.assertEqual(output_data, response_data)
+        else:
+            response_data = rsp.json()
+            for exp_item, act_item in zip(output_data.items(), response_data.items()):
+                self.assertTupleEqual(exp_item, act_item)
+
+        self.assertTrue(199 < rsp.status_code < 300, 'Not 2xx code -> not ok')
 
 
 
+        return response_data
