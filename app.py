@@ -1,18 +1,20 @@
 import sys
+import os
+import json
 
 from flask import Flask
 from flask_cors import CORS
 from flask_restful import Api
 from flask_socketio import SocketIO
-from flask_sqlalchemy import SQLAlchemy
-from flask_migrate import Migrate
+from flask_jwt_extended import JWTManager
+
 from loguru import logger
 
+from db import db_init
 from api.resources import UserRegistration, UserLogin, UserLogoutAccess, UserLogoutRefresh, TokenRefresh, AllUsers, \
-    SecretResource#, DatabaseTables
-from db.db_config import SQLALCHEMY_DATABASE_URI, SQLALCHEMY_TRACK_MODIFICATIONS, SECRET_KEY
-from helpers import get_env_variable
-# from db.models.user_model import UserModel
+    SecretResource, DatabaseDebugResource
+
+
 
 
 def api_init(app):
@@ -25,37 +27,42 @@ def api_init(app):
     api.add_resource(TokenRefresh, '/token/refresh')
     api.add_resource(AllUsers, '/users')
     api.add_resource(SecretResource, '/secret')
-    # api.add_resource(DatabaseTables, '/tables')
-    #api.add_resource()
+    api.add_resource(DatabaseDebugResource, '/debug/show_db')
     return api
 
 
-def db_init(app):
-    app.config['SQLALCHEMY_DATABASE_URI'] = SQLALCHEMY_DATABASE_URI
-    app.config['DATABASE_URL'] = SQLALCHEMY_DATABASE_URI
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = SQLALCHEMY_TRACK_MODIFICATIONS
-    app.config['SECRET_KEY'] = SECRET_KEY
+def jwt_init(app):
+    jwt_manager = JWTManager(app)
 
-    db = SQLAlchemy(app)
-    migrate = Migrate()
-    #@app.before_first_request  # is needed?
-    #def create_tables():
-    # db.create_all()
+    @jwt_manager.invalid_token_loader  # merge two functions into one?
+    def get_invalid_token_response(invalid_token):
+        token_type = invalid_token['type']
+        return json.dumps({
+            'status': 401,
+            'sub_status': 42,
+            'msg': 'The {} token has expired'.format(token_type)
+        }), 401
 
+    @jwt_manager.expired_token_loader
+    def get_token_expired_response(expired_token):
+        token_type = expired_token['type']
+        return json.dumps({
+            'status': 401,
+            'sub_status': 42,
+            'msg': 'The {} token has expired'.format(token_type)
+        }), 401
 
-
-    db.init_app(app)
-    migrate.init_app(app, db)
-
-    return db
-
+    return jwt_manager
 
 
 logger.add(sys.stdout, colorize=True)
 
 flask_app = Flask(__name__)
+jwt = jwt_init(flask_app)
 api = api_init(flask_app)
 db = db_init(flask_app)
+
+flask_app.config['JWT_SECRET_KEY'] = os.getenv('SECRET_KEY', 'add_env_var')
 
 CORS(flask_app, resources={r'/*': {'origins': '*'}})
 socketio = SocketIO(flask_app, cors_allowed_origins="*", log=logger, channel='')

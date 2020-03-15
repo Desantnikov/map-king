@@ -2,28 +2,22 @@ import json
 
 from flask import redirect, render_template, request
 from flask_cors import cross_origin
+from flask_jwt_extended import jwt_required
 from loguru import logger
 
 from app import flask_app, socketio
 from config import MAP_SETTINGS, MAP_DEFAULTS
 from json_encoder import UniversalJsonEncoder
 from room import Room
-from json_encoder import UniversalJsonEncoder
-from config import MAP_SETTINGS, MAP_DEFAULTS, DIRECTIONS
 
 rooms = []
 
 
 @flask_app.route('/')
+@jwt_required
 @cross_origin()
 def index():
-    return "Please use /room/new"
-#
-# @flask_app.route('/tables')
-# @cross_origin()
-# def tables():
-#     #from app import db
-#     return f"Tables: {db.engine.table_names()} "
+    return "Please use /room/new test"
 
 
 @flask_app.route('/room/new', methods=['GET'])
@@ -36,17 +30,17 @@ def create_room():
     return redirect(f'/room/{rooms[-1].id}')  # take room with explicid id
 
 
+@flask_app.route('/room/<int:room_id>')
+@cross_origin()
+def play(room_id):
+    return render_template('play.html')
+
+
 @socketio.on('connect')
 def connect():
     room_id = 0
     send_updated_map(room_id)
     logger.info(f'connect:')
-
-
-@flask_app.route('/room/<int:room_id>')
-@cross_origin()
-def play(room_id):
-    return render_template('play.html')
 
 
 @socketio.on('get_map')
@@ -74,7 +68,7 @@ def turn(data):
 
 
 def send_updated_map(room_id):
-    map_ = {'map': json.dumps(rooms[room_id].get_map(), cls=UniversalJsonEncoder),
+    map_ = {'map': json.dumps(rooms[room_id].get_map() or not None, cls=UniversalJsonEncoder),
             'turn_owner': rooms[room_id].turn_owner_queue[0]}
     logger.info(f'send_upd_map: {map_}')
     socketio.emit('map_update', map_)

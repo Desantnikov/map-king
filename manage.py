@@ -1,7 +1,7 @@
-import os
+
 from flask_script import Manager
 from flask_migrate import Migrate, MigrateCommand
-from db.models.user_model import UserModel
+from db.models.user import UserModel, RevokedAccessTokenModel, RevokedRefreshTokenModel
 
 from app import flask_app as app, db
 
