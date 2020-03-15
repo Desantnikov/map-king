@@ -25,7 +25,7 @@ def api_init(app):
     api.add_resource(TokenRefresh, '/token/refresh')
     api.add_resource(AllUsers, '/users')
     api.add_resource(SecretResource, '/secret')
-    api.add_resource(DatabaseTables, '/tables')
+    # api.add_resource(DatabaseTables, '/tables')
     #api.add_resource()
     return api
 
