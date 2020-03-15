@@ -17,7 +17,7 @@ rooms = []
 @flask_app.route('/')
 @cross_origin()
 def index():
-    return "Please use /room/new"
+    return "Please use /room/new test"
 
 @flask_app.route('/room/new', methods=['GET'])
 @cross_origin()
