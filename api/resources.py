@@ -1,46 +1,35 @@
 import json
-
-from flask import make_response
+from flask_jwt_extended import jwt_refresh_token_required, get_jwt_identity
 from flask_restful import Resource, reqparse
 
-
+from .helper_jwt import get_token_response
 
 parser = reqparse.RequestParser()
 parser.add_argument('username', help='This field cannot be blank', required=True)
 parser.add_argument('password', help='This field cannot be blank', required=True)
 
 
-class userModelResource(Resource):
+class UserModelResource(Resource):
     def __init__(self):
         from db.models.user_model import UserModel  # TODO: Find another way
         super().__init__()
         self.model = UserModel
 
 
-class UserRegistration(userModelResource):
+class UserRegistration(UserModelResource):
     def post(self):
-        print('reg post line 22')
         data = parser.parse_args()
         if self.model.find_by_username(data['username']):
-            print('reg post line 25')
             response_object = {
                 'status': 'fail',
                 'message': 'User already exists. Please Log in.',
             }
             return json.dumps(response_object), 202
 
-        print('reg post line 32')
         new_user = self.model(username=data['username'], password=data['password'])
         try:
             new_user.save_to_db()
-            auth_token = new_user.encode_auth_token()
-
-            response_object = {
-                'status': 'success',
-                'message': 'Successfully registered.',
-                'auth_token': auth_token
-            }
-            return json.dumps(response_object), 201
+            return get_token_response(new_user)
 
         except Exception as e:
             response_object = {
@@ -50,7 +39,7 @@ class UserRegistration(userModelResource):
             return json.dumps(response_object), 401
 
 
-class UserLogin(userModelResource):
+class UserLogin(UserModelResource):
     def post(self):
         data = parser.parse_args()
         current_user = self.model.find_by_username(data['username'])
@@ -58,8 +47,9 @@ class UserLogin(userModelResource):
             return {'message': f'User {data["username"]} doesn\'t exist'}
 
         if data.get('password') == current_user.password:
-            return {'message': f'Logged in as {current_user.username}',
-                    'token': current_user.encode_auth_token()}
+            current_user.save_to_db()
+            return get_token_response(current_user)
+
         else:
             return {'message': 'Wrong credentials'}
 
@@ -75,16 +65,15 @@ class UserLogoutRefresh(Resource):
 
 
 class TokenRefresh(Resource):
+    @jwt_refresh_token_required
     def post(self):
-        return {'message': 'Token refresh'}
+        current_user = get_jwt_identity()
+        return get_token_response(current_user)
 
 
-class AllUsers(userModelResource):
+class AllUsers(UserModelResource):
     def get(self):
         return self.model.return_all()
-
-    def delete(self):
-        return self.model.delete_all()
 
 
 class SecretResource(Resource):
