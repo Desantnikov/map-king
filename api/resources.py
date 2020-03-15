@@ -1,4 +1,4 @@
-# from db.models.user_model import UserModel
+# from db.models.user_model import UserModel - circular dependency
 from flask_restful import Resource, reqparse
 
 parser = reqparse.RequestParser()
@@ -8,7 +8,7 @@ parser.add_argument('password', help='This field cannot be blank', required=True
 
 class userModelResource(Resource):
     def __init__(self):
-        from db.models.user_model import UserModel  # looks not very good
+        from db.models.user_model import UserModel  # TODO: refactor
         super().__init__()
         self.model = UserModel
 
@@ -69,3 +69,9 @@ class SecretResource(Resource):
         return {
             'answer': 42
         }
+
+class DatabaseTables(Resource):
+    def get(self):
+        from app import db
+        rsp = db.engine.table_names()
+        return f'DatabaseTables: {rsp}'

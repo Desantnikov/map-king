@@ -10,5 +10,5 @@ DB_URL = 'postgres://voheseigswrsbm:cc68d8363f89bddabbe1ce4735a7020217b0f96c2298
          '47.compute-1.amazonaws.com:5432/d97uq4qkakfic0'
 
 SQLALCHEMY_DATABASE_URI = DB_URL
-SQLALCHEMY_TRACK_MODIFICATIONS = False
+SQLALCHEMY_TRACK_MODIFICATIONS = True
 SECRET_KEY = 'some-secret-string'
