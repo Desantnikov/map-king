@@ -69,3 +69,8 @@ class SecretResource(Resource):
         return {
             'answer': 42
         }
+
+
+class IndexResource(Resource):
+    def get(self):
+        return 'Please use /rooms/new'
