@@ -1,7 +1,7 @@
 import json
 from flask_jwt_extended import create_access_token
 
-from app import db, jwt_manager
+from app import db
 from json_encoder import UniversalJsonEncoder
 
 from config import SECONDARY_SECRET_KEY
