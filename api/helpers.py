@@ -1,5 +1,4 @@
-import json
-from db.models.user import RevokedAccessTokenModel, RevokedRefreshTokenModel
+
 
 
 def get_token_response(user):
@@ -20,11 +19,11 @@ def get_unexpected_error_response(exception):
         'status': 'fail',
         'message': f'Unexpected error happened: {exception}'
     }
-    return json.dumps(response_object), 401
+    return response_object, 401
 
 
 def get_token_model(token_type=None):
-
+    from db.models.user import RevokedAccessTokenModel, RevokedRefreshTokenModel
     model_map = {'refresh': RevokedRefreshTokenModel, 'access': RevokedAccessTokenModel}
     try:
         return model_map[token_type]
