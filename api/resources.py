@@ -2,7 +2,7 @@ import json
 from flask_jwt_extended import jwt_refresh_token_required, get_jwt_identity, get_raw_jwt, jwt_required
 from flask_restful import Resource, reqparse
 
-from .helper_api import get_token_response, get_unexpected_error_response, get_token_model
+from .helpers import get_token_response, get_unexpected_error_response, get_token_model
 
 parser = reqparse.RequestParser()
 parser.add_argument('username', help='This field cannot be blank', required=True)
@@ -14,12 +14,6 @@ class UserModelResource(Resource):
         from db.models.user import UserModel  # TODO: Find another way
         super().__init__()
         self.model = UserModel
-
-
-# class RevokedTokenModelResource(Resource):
-#     def __init__(self):
-#         super().__init__()
-#         self.model = get_token_model()
 
 
 class UserRegistration(UserModelResource):

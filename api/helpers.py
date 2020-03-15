@@ -11,7 +11,7 @@ def get_token_response(user):
         'auth_token': access_token,
         'refresh_token': refresh_token
     }
-    return json.dumps(response_object), 200
+    return response_object, 200
 
 
 def get_unexpected_error_response(exception):
