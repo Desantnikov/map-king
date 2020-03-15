@@ -5,12 +5,11 @@ from app import db
 from json_encoder import UniversalJsonEncoder
 
 
-class TokenModel(db.Model):
-    __tablename__ = "tokens"
+class RevokedTokenModel(db.Model):
+    __tablename__ = "revoked_tokens"
 
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(120), unique=True, nullable=False)
-    password = db.Column(db.String(120), nullable=False)
+
 
     def __repr__(self):
         return f'UserID: {self.id}; Username: {self.username};'

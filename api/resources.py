@@ -1,5 +1,5 @@
 import json
-from flask_jwt_extended import jwt_refresh_token_required, get_jwt_identity
+from flask_jwt_extended import jwt_refresh_token_required, get_jwt_identity, get_raw_jwt
 from flask_restful import Resource, reqparse
 
 from .helper_jwt import get_token_response
@@ -8,12 +8,21 @@ parser = reqparse.RequestParser()
 parser.add_argument('username', help='This field cannot be blank', required=True)
 parser.add_argument('password', help='This field cannot be blank', required=True)
 
+#parser.add_argument('jti', help='Used for revoking tokens', required=False)
+
 
 class UserModelResource(Resource):
     def __init__(self):
-        from db.models.user_model import UserModel  # TODO: Find another way
+        from db.models.user import UserModel  # TODO: Find another way
         super().__init__()
         self.model = UserModel
+
+
+class RevokedTokenModelResource(Resource):
+    def __init__(self):
+        from db.models.revoked_token import RevokedTokenModel
+        super().__init__()
+        self.model = RevokedTokenModel
 
 
 class UserRegistration(UserModelResource):
@@ -54,8 +63,14 @@ class UserLogin(UserModelResource):
             return {'message': 'Wrong credentials'}
 
 
-class UserLogoutAccess(Resource):
+class UserLogoutAccess(RevokedTokenModelResource):
     def post(self):
+        # new_revoked_token = self.model(username=data['jti'])
+        # try:
+        #     new_user.save_to_db()
+        #     return get_token_response(new_user)
+        # jti = get_raw_jwt()['jti']
+        # self.model.add(jti)
         return {'message': 'User logout'}
 
 
