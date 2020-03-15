@@ -9,6 +9,7 @@ from flask_jwt_extended import JWTManager
 
 from loguru import logger
 
+from db import db_init
 from api.resources import UserRegistration, UserLogin, UserLogoutAccess, UserLogoutRefresh, TokenRefresh, AllUsers, \
     SecretResource
 
@@ -49,6 +50,7 @@ logger.add(sys.stdout, colorize=True)
 flask_app = Flask(__name__)
 jwt = jwt_init(flask_app)
 api = api_init(flask_app)
+db = db_init(flask_app)
 
 flask_app.config['JWT_SECRET_KEY'] = os.getenv('SECRET_KEY', SECONDARY_SECRET_KEY)
 

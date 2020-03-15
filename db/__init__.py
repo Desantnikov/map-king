@@ -1,7 +1,6 @@
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 
-from app import flask_app
 from db import SQLALCHEMY_DATABASE_URI
 from db.db_config import SQLALCHEMY_DATABASE_URI, SQLALCHEMY_TRACK_MODIFICATIONS, SECRET_KEY
 
@@ -18,4 +17,3 @@ def db_init(app):
     return db
 
 
-db = db_init(flask_app)
