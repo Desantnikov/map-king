@@ -21,7 +21,7 @@ class UserRegistration(userModelResource):
     def post(self):
         data = parser.parse_args()
 
-        import pdb; pdb.set_trace()
+        rpdb.set_trace()
         if self.model.find_by_username(data['username']):
             response_object = {
                 'status': 'fail',
