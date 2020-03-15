@@ -69,7 +69,7 @@ def turn(data):
 
 
 def send_updated_map(room_id):
-    map_ = {'map': json.dumps(rooms[room_id].get_map(), cls=UniversalJsonEncoder),
+    map_ = {'map': json.dumps(rooms[room_id].get_map() or not None, cls=UniversalJsonEncoder),
             'turn_owner': rooms[room_id].turn_owner_queue[0]}
     logger.info(f'send_upd_map: {map_}')
     socketio.emit('map_update', map_)
