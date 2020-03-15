@@ -41,10 +41,14 @@ def db_init(app):
 
     db = SQLAlchemy(app)
     migrate = Migrate()
+    #@app.before_first_request  # is needed?
+    #def create_tables():
+    # db.create_all()
+
+
 
     db.init_app(app)
     migrate.init_app(app, db)
-
 
     return db
 
