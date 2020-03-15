@@ -27,7 +27,7 @@ class UserRegistration(userModelResource):
                 'status': 'fail',
                 'message': 'User already exists. Please Log in.',
             }
-            return make_response(json.dumps(response_object)), 202
+            return json.dumps(response_object), 202
 
         print('reg post line 32')
         new_user = self.model(username=data['username'], password=data['password'])
@@ -40,14 +40,14 @@ class UserRegistration(userModelResource):
                 'message': 'Successfully registered.',
                 'auth_token': auth_token
             }
-            return make_response(json.dumps(response_object)), 201
+            return json.dumps(response_object), 201
 
         except Exception as e:
             response_object = {
                 'status': 'fail',
                 'message': 'Some error occurred. Please try again.'
             }
-            return make_response(json.dumps(response_object)), 401
+            return json.dumps(response_object), 401
 
 
 class UserLogin(userModelResource):
