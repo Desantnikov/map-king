@@ -5,12 +5,14 @@ from flask_cors import CORS
 from flask_restful import Api
 from flask_socketio import SocketIO
 from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 from loguru import logger
 
 from api.resources import UserRegistration, UserLogin, UserLogoutAccess, UserLogoutRefresh, TokenRefresh, AllUsers, \
     SecretResource, DatabaseTables
 from db.db_config import SQLALCHEMY_DATABASE_URI, SQLALCHEMY_TRACK_MODIFICATIONS, SECRET_KEY
 from helpers import get_env_variable
+from db.models.user_model import UserModel
 
 
 def api_init(app):
@@ -35,10 +37,15 @@ def db_init(app):
     app.config['SECRET_KEY'] = SECRET_KEY
 
     db = SQLAlchemy(app)
-
+    migrate = Migrate()
     #@app.before_first_request  # is needed?
     #def create_tables():
-    db.create_all()
+    # db.create_all()
+
+
+
+    db.init_app(app)
+    migrate.init_app(app, db)
 
     return db
 
