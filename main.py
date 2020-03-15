@@ -4,11 +4,10 @@ from flask import redirect, render_template, request
 from flask_cors import cross_origin
 from loguru import logger
 
-from app import flask_app, socketio
+from app import flask_app#, socketio
 from config import MAP_SETTINGS, MAP_DEFAULTS
 from json_encoder import UniversalJsonEncoder
 from room import Room
-from json_encoder import UniversalJsonEncoder
 from config import MAP_SETTINGS, MAP_DEFAULTS, DIRECTIONS
 
 rooms = []

@@ -1,3 +1,6 @@
+from app import socketio
+from json_encoder import UniversalJsonEncoder
+
 @socketio.on('connect')
 def connect():
     room_id = 0
