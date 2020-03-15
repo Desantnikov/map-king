@@ -28,7 +28,6 @@ def api_init(app):
     api.add_resource(TokenRefresh, '/token/refresh')
     api.add_resource(AllUsers, '/users')
     api.add_resource(SecretResource, '/secret')
-    #api.add_resource(IndexResource, '/secret')
 
     return api
 
@@ -41,12 +40,6 @@ def db_init(app):
 
     db = SQLAlchemy(app)
     migrate = Migrate()
-    #@app.before_first_request  # is needed?
-    #def create_tables():
-    # db.create_all()
-
-    # db.init_app(app)
-    # migrate.init_app(app, db)
 
     return db
 

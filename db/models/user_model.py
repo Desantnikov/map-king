@@ -18,7 +18,7 @@ class UserModel(db.Model):
         return f'UserID: {self.id}; Username: {self.username};'
 
     def save_to_db(self):
-        db.session.begin()
+        #db.session.begin()
         db.session.add(self)
         db.session.commit()
 
