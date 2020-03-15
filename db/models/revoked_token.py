@@ -1,6 +1,6 @@
 from sqlalchemy.sql.expression import select, exists
 
-from app import db
+from db import db
 from json_encoder import UniversalJsonEncoder
 
 
