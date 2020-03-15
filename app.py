@@ -8,7 +8,7 @@ from flask_sqlalchemy import SQLAlchemy
 from loguru import logger
 
 from api.resources import UserRegistration, UserLogin, UserLogoutAccess, UserLogoutRefresh, TokenRefresh, AllUsers, \
-    SecretResource, IndexResource
+    SecretResource
 from db.db_config import SQLALCHEMY_DATABASE_URI, SQLALCHEMY_TRACK_MODIFICATIONS, SECRET_KEY
 from helpers import get_env_variable
 
@@ -23,7 +23,7 @@ def api_init(app):
     api.add_resource(TokenRefresh, '/token/refresh')
     api.add_resource(AllUsers, '/users')
     api.add_resource(SecretResource, '/secret')
-    api.add_resource(IndexResource, '/')
+    #api.add_resource(IndexResource, '/secret')
 
     return api
 

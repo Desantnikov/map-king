@@ -1,4 +1,6 @@
-# from db.models.user_model import UserModel
+import json
+
+from flask import make_response
 from flask_restful import Resource, reqparse
 
 parser = reqparse.RequestParser()
@@ -18,14 +20,29 @@ class UserRegistration(userModelResource):
         data = parser.parse_args()
 
         if self.model.find_by_username(data['username']):
-            return {'message': f'User {data["username"]} already exists'}
+            responseObject = {
+                'status': 'fail',
+                'message': 'User already exists. Please Log in.',
+            }
+            return make_response(json.dumps(responseObject)), 202
 
         new_user = self.model(username=data['username'], password=data['password'])
         try:
             new_user.save_to_db()
-            return {'message': f'User {data["username"]} was created'}
-        except:
-            return {'message': 'Something went wrong'}, 500
+            auth_token = new_user.encode_auth_token(new_user.id)
+
+            responseObject = {
+                'status': 'success',
+                'message': 'Successfully registered.',
+                'auth_token': auth_token.decode()
+            }
+            return make_response(json.dumps(responseObject)), 201
+        except Exception as e:
+            responseObject = {
+                'status': 'fail',
+                'message': 'Some error occurred. Please try again.'
+            }
+            return make_response(json.dumps(responseObject)), 401
 
 
 class UserLogin(userModelResource):
@@ -36,7 +53,8 @@ class UserLogin(userModelResource):
             return {'message': f'User {data["username"]} doesn\'t exist'}
 
         if data['password'] == current_user.password:
-            return {'message': f'Logged in as {current_user.username}'}
+            return {'message': f'Logged in as {current_user.username}'}#,
+                    #'token': current_user.}
         else:
             return {'message': 'Wrong credentials'}
 
@@ -69,8 +87,3 @@ class SecretResource(Resource):
         return {
             'answer': 42
         }
-
-
-class IndexResource(Resource):
-    def get(self):
-        return 'Please use /rooms/new'
