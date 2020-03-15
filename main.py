@@ -18,13 +18,6 @@ rooms = []
 @cross_origin()
 def index():
     return "Please use /room/new"
-#
-# @flask_app.route('/tables')
-# @cross_origin()
-# def tables():
-#     #from app import db
-#     return f"Tables: {db.engine.table_names()} "
-
 
 @flask_app.route('/room/new', methods=['GET'])
 @cross_origin()
@@ -35,14 +28,10 @@ def create_room():
 
     return redirect(f'/room/{rooms[-1].id}')  # take room with explicid id
 
-
 @flask_app.route('/room/<int:room_id>')
 @cross_origin()
 def play(room_id):
     return render_template('play.html')
-
-
-
 
 if __name__ == '__main__':
     flask_app.run('0.0.0.0')
