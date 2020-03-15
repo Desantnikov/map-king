@@ -1,5 +1,4 @@
 import json
-from db.models.user import RevokedAccessTokenModel, RevokedRefreshTokenModel
 
 
 def get_token_response(user):
@@ -24,10 +23,11 @@ def get_unexpected_error_response(exception):
 
 
 def get_token_model(token_type=None):
+    from db.models.user import RevokedAccessTokenModel, RevokedRefreshTokenModel
+    model_map = {'refresh': RevokedRefreshTokenModel, 'access': RevokedAccessTokenModel}
     try:
-        model_map = {'refresh': RevokedRefreshTokenModel, 'access': RevokedAccessTokenModel}
-
+        return model_map[token_type]
     except KeyError:
         raise Exception(f"{token_type} model requested, only: {' ; '.join(model_map.keys())} are present")
 
-    return model_map[token_type]
+
