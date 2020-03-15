@@ -24,7 +24,7 @@ class RevokedAccessTokenModel(db.Model):
         return self.__class__.token_type
 
     def is_revoked(self):
-        return db.session.query(exists().where(RevokedAccessTokenModel.jti == self.jti))
+        return db.session.query(exists().where(RevokedAccessTokenModel.jti == self.jti)).scalar()
 
     def revoke(self):
         db.session.add(self)
