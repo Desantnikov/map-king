@@ -70,8 +70,8 @@ class SecretResource(Resource):
             'answer': 42
         }
 
-class DatabaseTables(Resource):
-    def get(self):
-        from app import db
-        rsp = db.engine.table_names()
-        return f'DatabaseTables: {rsp}'
+
+# class DatabaseTables(Resource):
+#     def get(self):
+#         rsp = db.engine.table_names()
+#         return f'DatabaseTables: {rsp}'

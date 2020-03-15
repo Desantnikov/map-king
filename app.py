@@ -9,7 +9,7 @@ from flask_migrate import Migrate
 from loguru import logger
 
 from api.resources import UserRegistration, UserLogin, UserLogoutAccess, UserLogoutRefresh, TokenRefresh, AllUsers, \
-    SecretResource, DatabaseTables
+    SecretResource#, DatabaseTables
 from db.db_config import SQLALCHEMY_DATABASE_URI, SQLALCHEMY_TRACK_MODIFICATIONS, SECRET_KEY
 from helpers import get_env_variable
 from db.models.user_model import UserModel
@@ -25,7 +25,7 @@ def api_init(app):
     api.add_resource(TokenRefresh, '/token/refresh')
     api.add_resource(AllUsers, '/users')
     api.add_resource(SecretResource, '/secret')
-    api.add_resource(DatabaseTables, '/tables')
+    # api.add_resource(DatabaseTables, '/tables')
     #api.add_resource()
     return api
 
