@@ -122,7 +122,13 @@ class SecretResource(Resource):
             'answer': 42
         }
 
-# class DatabaseDebugResource(Resource):
-#     def get(self):
-#
+
+class DatabaseDebugResource(UserModelResource):
+    def get(self):
+        result = {}
+        result.update(self.model.return_all())
+        result.update(get_token_model(token_type='access').return_all())
+        result.update(get_token_model(token_type='refresh').return_all())
+
+        return result
 

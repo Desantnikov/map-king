@@ -1,4 +1,5 @@
-import sys, os
+import sys
+import os
 import json
 
 from flask import Flask
@@ -11,9 +12,9 @@ from loguru import logger
 
 from db import db_init
 from api.resources import UserRegistration, UserLogin, UserLogoutAccess, UserLogoutRefresh, TokenRefresh, AllUsers, \
-    SecretResource
+    SecretResource, DatabaseDebugResource
 
-from config import SECONDARY_SECRET_KEY
+
 
 
 def api_init(app):
@@ -26,7 +27,7 @@ def api_init(app):
     api.add_resource(TokenRefresh, '/token/refresh')
     api.add_resource(AllUsers, '/users')
     api.add_resource(SecretResource, '/secret')
-
+    api.add_resource(DatabaseDebugResource, '/debug/show_db')
     return api
 
 
@@ -52,7 +53,7 @@ jwt = jwt_init(flask_app)
 api = api_init(flask_app)
 db = db_init(flask_app)
 
-flask_app.config['JWT_SECRET_KEY'] = os.getenv('SECRET_KEY', SECONDARY_SECRET_KEY)
+flask_app.config['JWT_SECRET_KEY'] = os.getenv('SECRET_KEY', 'add_env_var')
 
 CORS(flask_app, resources={r'/*': {'origins': '*'}})
 socketio = SocketIO(flask_app, cors_allowed_origins="*", log=logger, channel='')

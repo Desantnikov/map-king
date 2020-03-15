@@ -21,7 +21,5 @@ DEFAULT_ATTACK_LEVEL = 1
 
 RESPONSE_CODES = {0: 'Targed died;', 1: 'Target survived fight;'}
 
-SECONDARY_SECRET_KEY = 'zhopa'
-
 
 

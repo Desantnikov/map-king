@@ -1,5 +1,5 @@
 import json
-from db.models.revoked_token import RevokedAccessTokenModel, RevokedRefreshTokenModel
+from db.models.user import RevokedAccessTokenModel, RevokedRefreshTokenModel
 
 
 def get_token_response(user):
