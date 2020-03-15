@@ -57,7 +57,10 @@ class UserLogoutAccess(Resource):
     @jwt_required
     def post(self):
         try:
-            jti = get_raw_jwt()['jti']
+            jti = get_raw_jwt().get('jti')
+            if not jti:
+                raise Exception('Blank JTI')
+            
             token_to_revoke = self.model(jti=jti)
 
             if not token_to_revoke.is_revoked():
@@ -66,13 +69,13 @@ class UserLogoutAccess(Resource):
                     'status': 'Success',
                     'message': 'Token added to revoked list'
                 }
-                return json.dumps(response_object), 200
+                return response_object, 200
 
             response_object = {
                 'status': 'Fail',
                 'message': "Can't revoke revoked token"
             }
-            return json.dumps(response_object), 400
+            return response_object, 400
         except Exception as e:
             return get_unexpected_error_response(e)
 
