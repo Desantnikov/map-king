@@ -19,14 +19,17 @@ class userModelResource(Resource):
 
 class UserRegistration(userModelResource):
     def post(self):
+        print('reg post line 22')
         data = parser.parse_args()
         if self.model.find_by_username(data['username']):
+            print('reg post line 25')
             response_object = {
                 'status': 'fail',
                 'message': 'User already exists. Please Log in.',
             }
             return make_response(json.dumps(response_object)), 202
 
+        print('reg post line 32')
         new_user = self.model(username=data['username'], password=data['password'])
         try:
             new_user.save_to_db()
