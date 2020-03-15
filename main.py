@@ -20,6 +20,7 @@ rooms = []
 def index():
     return "Please use /room/new test"
 
+
 @flask_app.route('/room/new', methods=['GET'])
 @cross_origin()
 def create_room():
@@ -29,16 +30,19 @@ def create_room():
 
     return redirect(f'/room/{rooms[-1].id}')  # take room with explicid id
 
+
 @flask_app.route('/room/<int:room_id>')
 @cross_origin()
 def play(room_id):
     return render_template('play.html')
+
 
 @socketio.on('connect')
 def connect():
     room_id = 0
     send_updated_map(room_id)
     logger.info(f'connect:')
+
 
 @socketio.on('get_map')
 def get_map(data):
@@ -63,11 +67,13 @@ def turn(data):
 
     socketio.emit('test', player_info)
 
+
 def send_updated_map(room_id):
     map_ = {'map': json.dumps(rooms[room_id].get_map(), cls=UniversalJsonEncoder),
             'turn_owner': rooms[room_id].turn_owner_queue[0]}
     logger.info(f'send_upd_map: {map_}')
     socketio.emit('map_update', map_)
+
 
 if __name__ == '__main__':
     flask_app.run('0.0.0.0')
