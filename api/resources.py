@@ -55,9 +55,9 @@ class UserLogin(userModelResource):
         if not current_user:
             return {'message': f'User {data["username"]} doesn\'t exist'}
 
-        if data['password'] == current_user.password:
-            return {'message': f'Logged in as {current_user.username}'}#,
-                    #'token': current_user.}
+        if data.get('password') == current_user.password:
+            return {'message': f'Logged in as {current_user.username}',
+                    'token': current_user.encode_auth_token()}
         else:
             return {'message': 'Wrong credentials'}
 
