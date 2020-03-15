@@ -4,7 +4,7 @@ from flask_migrate import Migrate, MigrateCommand
 
 from app import flask_app as app, db
 
-
+POSTGRES_URL = os.environ.get("DATABASE_URL")
 #app.config.from_object(os.environ['APP_SETTINGS'])
 
 migrate = Migrate(app, db)

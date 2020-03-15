@@ -45,22 +45,18 @@ def db_init(app):
     #def create_tables():
     # db.create_all()
 
-
-
-    db.init_app(app)
-    migrate.init_app(app, db)
+    # db.init_app(app)
+    # migrate.init_app(app, db)
 
     return db
-
 
 
 logger.add(sys.stdout, colorize=True)
 
 flask_app = Flask(__name__)
+jwt_manager = JWTManager(flask_app)
 api = api_init(flask_app)
 db = db_init(flask_app)
-
-jwt_manager = JWTManager(flask_app)
 
 flask_app.config['JWT_SECRET_KEY'] = os.getenv('SECRET_KEY', SECONDARY_SECRET_KEY)
 
