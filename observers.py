@@ -1,5 +1,6 @@
 from app import socketio
 from json_encoder import UniversalJsonEncoder
+from loguru import logger
 
 @socketio.on('connect')
 def connect():
