@@ -3,7 +3,7 @@ import json
 from flask import make_response
 from flask_restful import Resource, reqparse
 
-from app import jwt_manager
+
 
 parser = reqparse.RequestParser()
 parser.add_argument('username', help='This field cannot be blank', required=True)
