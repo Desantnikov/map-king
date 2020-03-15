@@ -23,7 +23,7 @@ def get_unexpected_error_response(exception):
 
 
 def get_token_model(token_type=None):
-    from db.models.user import RevokedAccessTokenModel, RevokedRefreshTokenModel
+    from db.models.revoked_token import RevokedAccessTokenModel, RevokedRefreshTokenModel
     model_map = {'refresh': RevokedRefreshTokenModel, 'access': RevokedAccessTokenModel}
     try:
         return model_map[token_type]

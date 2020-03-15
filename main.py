@@ -6,10 +6,9 @@ from flask_jwt_extended import jwt_required
 from loguru import logger
 
 from app import flask_app, socketio
-from config import MAP_SETTINGS, MAP_DEFAULTS
 from json_encoder import UniversalJsonEncoder
 from room import Room
-from config import MAP_SETTINGS, MAP_DEFAULTS, DIRECTIONS
+from config import MAP_SETTINGS, MAP_DEFAULTS
 
 rooms = []
 
