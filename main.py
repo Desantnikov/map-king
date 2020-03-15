@@ -1,52 +1,51 @@
-from flask import Flask, redirect, render_template, request
-from flask_cors import cross_origin, CORS
-from flask_socketio import SocketIO, join_room, emit, send
 import json
 
-import sys
+from flask import redirect, render_template, request
+from flask_cors import cross_origin
 from loguru import logger
+
+from app import flask_app, socketio
+from config import MAP_SETTINGS, MAP_DEFAULTS
+from json_encoder import UniversalJsonEncoder
 from room import Room
 from json_encoder import UniversalJsonEncoder
 from config import MAP_SETTINGS, MAP_DEFAULTS, DIRECTIONS
 
-app = Flask(__name__)
-
-
-logger.add(sys.stdout,colorize=True)
-
-CORS(app, resources={r'/*': {'origins': '*'}})
-socketio = SocketIO(app, cors_allowed_origins="*", log=logger)
-
 rooms = []
 
 
-
-@app.route('/')
+@flask_app.route('/')
 @cross_origin()
 def index():
     return "Please use /room/new"
+#
+# @flask_app.route('/tables')
+# @cross_origin()
+# def tables():
+#     #from app import db
+#     return f"Tables: {db.engine.table_names()} "
 
 
-@app.route('/room/new', methods=['GET'])
+@flask_app.route('/room/new', methods=['GET'])
 @cross_origin()
 def create_room():
     settings = [request.args.get(*parameter) for parameter in zip(MAP_SETTINGS, MAP_DEFAULTS)]
     parameters = settings + [len(rooms)]  # width, height, players, room_id
     rooms.append(Room(*parameters))
 
-    return redirect(f'/room/{rooms[-1].id}')
+    return redirect(f'/room/{rooms[-1].id}')  # take room with explicid id
 
 
 @socketio.on('connect')
 def connect():
     room_id = 0
     send_updated_map(room_id)
+    logger.info(f'connect:')
 
 
-@app.route('/room/<int:room_id>')
+@flask_app.route('/room/<int:room_id>')
 @cross_origin()
 def play(room_id):
-
     return render_template('play.html')
 
 
@@ -54,6 +53,7 @@ def play(room_id):
 def get_map(data):
     room_id = data['room_id']  # TODO: Use socktio.rooms
     send_updated_map(room_id)
+    logger.info(f'get_map data: {data}')
 
 
 @socketio.on('turn')
@@ -67,16 +67,18 @@ def turn(data):
 
     send_updated_map(room_id)
     player_info = ''
-    for player in rooms[room_id].players:
+    for player in rooms[room_id].players:  # Debug
         player_info = player_info + f'Player {player.id} has {player.health} HP'
 
     socketio.emit('test', player_info)
 
 
 def send_updated_map(room_id):
-    socketio.emit('map_update', {'map': json.dumps(rooms[room_id].get_map(), cls=UniversalJsonEncoder),
-                                 'turn_owner': rooms[room_id].turn_owner_queue[0]})
+    map_ = {'map': json.dumps(rooms[room_id].get_map(), cls=UniversalJsonEncoder),
+            'turn_owner': rooms[room_id].turn_owner_queue[0]}
+    logger.info(f'send_upd_map: {map_}')
+    socketio.emit('map_update', map_)
 
 
 if __name__ == '__main__':
-    app.run('0.0.0.0')
+    flask_app.run('0.0.0.0')

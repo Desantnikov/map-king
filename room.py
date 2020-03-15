@@ -1,5 +1,4 @@
 from collections import deque
-from itertools import repeat
 
 from loguru import logger
 
