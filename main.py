@@ -2,6 +2,7 @@ import json
 
 from flask import redirect, render_template, request
 from flask_cors import cross_origin
+from flask_jwt_extended import jwt_required
 from loguru import logger
 
 from app import flask_app, socketio
@@ -14,6 +15,7 @@ rooms = []
 
 
 @flask_app.route('/')
+@jwt_required
 @cross_origin()
 def index():
     return "Please use /room/new test"

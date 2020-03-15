@@ -3,6 +3,8 @@ import json
 from flask import make_response
 from flask_restful import Resource, reqparse
 
+from app import jwt_manager
+
 parser = reqparse.RequestParser()
 parser.add_argument('username', help='This field cannot be blank', required=True)
 parser.add_argument('password', help='This field cannot be blank', required=True)
@@ -20,29 +22,30 @@ class UserRegistration(userModelResource):
         data = parser.parse_args()
 
         if self.model.find_by_username(data['username']):
-            responseObject = {
+            response_object = {
                 'status': 'fail',
                 'message': 'User already exists. Please Log in.',
             }
-            return make_response(json.dumps(responseObject)), 202
+            return make_response(json.dumps(response_object)), 202
 
         new_user = self.model(username=data['username'], password=data['password'])
         try:
             new_user.save_to_db()
-            auth_token = new_user.encode_auth_token(new_user.id)
+            auth_token = new_user.encode_auth_token()
 
-            responseObject = {
+            response_object = {
                 'status': 'success',
                 'message': 'Successfully registered.',
-                'auth_token': auth_token.decode()
+                'auth_token': auth_token
             }
-            return make_response(json.dumps(responseObject)), 201
+            return make_response(json.dumps(response_object)), 201
+
         except Exception as e:
-            responseObject = {
+            response_object = {
                 'status': 'fail',
                 'message': 'Some error occurred. Please try again.'
             }
-            return make_response(json.dumps(responseObject)), 401
+            return make_response(json.dumps(response_object)), 401
 
 
 class UserLogin(userModelResource):

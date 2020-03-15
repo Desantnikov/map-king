@@ -1,15 +1,18 @@
-import sys
+import sys, os
 
 from flask import Flask
 from flask_cors import CORS
 from flask_restful import Api
 from flask_socketio import SocketIO
 from flask_sqlalchemy import SQLAlchemy
+from flask_jwt_extended import JWTManager
 from loguru import logger
 
 from api.resources import UserRegistration, UserLogin, UserLogoutAccess, UserLogoutRefresh, TokenRefresh, AllUsers, \
     SecretResource
 from db.db_config import SQLALCHEMY_DATABASE_URI, SQLALCHEMY_TRACK_MODIFICATIONS, SECRET_KEY
+
+from config import SECONDARY_SECRET_KEY
 from helpers import get_env_variable
 
 
@@ -49,6 +52,10 @@ logger.add(sys.stdout, colorize=True)
 flask_app = Flask(__name__)
 api = api_init(flask_app)
 db = db_init(flask_app)
+
+jwt_manager = JWTManager(flask_app)
+
+flask_app.config['JWT_SECRET_KEY'] = os.getenv('SECRET_KEY', SECONDARY_SECRET_KEY)
 
 CORS(flask_app, resources={r'/*': {'origins': '*'}})
 socketio = SocketIO(flask_app, cors_allowed_origins="*", log=logger, channel='')
