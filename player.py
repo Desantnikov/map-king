@@ -8,9 +8,9 @@ from map_object import MapObject
 
 
 class Nobody(MapObject):
-    def __init__(self, x, y, id=None):
+    def __init__(self, x, y, id_=None):
         super().__init__(x, y)
-        self.id = id
+        self.id_ = id_
 
     def __repr__(self):
         return 'Nobody'
@@ -20,15 +20,15 @@ class Nobody(MapObject):
 
 
 class Player(Nobody):
-    def __init__(self, id, x, y):
-        super().__init__(x, y, id)
+    def __init__(self, id_, x, y):
+        super().__init__(x, y, id_)
         self.health, self.attack = DEFAULT_HEALTH_LEVEL, DEFAULT_ATTACK_LEVEL
 
     def __str__(self):
-        return f'PLAYER{self.id}'#HP: {self.health}; Attack: {self.attack};'
+        return f'PLAYER{self.id_}'
 
     def __repr__(self):
-        return f'PLAYER{self.id}'#HP: {self.health}; Attack: {self.attack};'
+        return f'PLAYER{self.id_}'
 
     def __bool__(self):
         return True
@@ -38,7 +38,7 @@ class Player(Nobody):
         return True
 
     def get_info(self):
-        return {'id': self.id, 'health': self.health, 'attack': self.attack}
+        return {'id': self.id_, 'health': self.health, 'attack': self.attack}
 
     def take_damage(self, damage):
         if self.health > damage:

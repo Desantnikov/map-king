@@ -4,12 +4,12 @@ class MapObject:
 
     """
 
-    def __init__(self, x, y, image_name=None):
+    def __init__(self, x, y, object_name=None):
         self.x, self.y = x, y
-        self.image_name = image_name
+        self.object_name = object_name
 
     def get_location(self):
         return self.x, self.y
 
-    def get_image_name(self):
-        return self.image_name
+    def get_object_name(self):
+        return self.object_name

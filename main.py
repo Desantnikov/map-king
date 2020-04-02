@@ -1,5 +1,3 @@
-import json
-
 from flask import redirect, render_template, request
 from flask_cors import cross_origin
 from flask_jwt_extended import jwt_required
@@ -7,7 +5,6 @@ from loguru import logger
 
 from app import flask_app, socketio
 from config import MAP_SETTINGS, MAP_DEFAULTS
-from json_encoder import UniversalJsonEncoder
 from room import Room
 
 rooms = []
@@ -38,7 +35,7 @@ def play(room_id):
 
 @socketio.on('connect')
 def connect():
-    room_id = 0
+    room_id = 0  # TODO: No hardcode
     send_updated_map(room_id)
     logger.info(f'connect:')
 
@@ -68,8 +65,11 @@ def turn(data):
 
 
 def send_updated_map(room_id):
-    map_ = {'map': json.dumps(rooms[room_id].get_map() or not None, cls=UniversalJsonEncoder),
-            'turn_owner': rooms[room_id].turn_owner_queue[0]}
+    current_room = rooms[room_id]
+
+    map_ = {'map': current_room.map.get_dict(),
+            'turn_owner': current_room.turn_owner_queue[0]}
+
     logger.info(f'send_upd_map: {map_}')
     socketio.emit('map_update', map_)
 

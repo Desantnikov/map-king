@@ -51,6 +51,6 @@ class Room:
             x, y = player.get_location()
             self.map.cells[x][y].occupy(player)
 
-    def get_map(self):
-        return self.map.get()
+    # def get_map(self):
+    #     return self.map.get()
 

@@ -32,7 +32,7 @@
     });
 
     socket.on('map_update', function(msg) {
-        console.log('Map updated: ', JSON.stringify(msg));
+        console.log('Map updated: ', msg);
         draw(msg, field);
         turn_owner = msg['turn_owner']
         document.getElementById("player_id").innerHTML = turn_owner
@@ -57,7 +57,8 @@
       ctx.clearRect(0,0, 500,500)
       //var columns = 10;
       cellSize = 20;
-      data = JSON.parse(data['map']);
+      data = data.map;
+      console.log(data)
       var size = data.length;
 
       //console.log('Data: ', data);
@@ -74,9 +75,10 @@
           for (column = 0; column < size; ++column ){
               //console.log('Column: ', column);
               //console.log('Cell value: ', data[line][column]);
-              if (data[line][column] != null ){
-                  //console.log('data[line][column]: ', data[line][column])
-                  ctx.fillStyle = colors[data[line][column]]
+              if (data[line][column].occupied_by != null ){
+                  console.log('data[line][column].occ: ', data[line][column].occupied_by)
+                  //console.log('data[line][column][occupied_by]: ', data[line][column][occupied_by])
+                  ctx.fillStyle = colors[data[line][column].occupied_by]
               } else {
                   ctx.fillStyle = 'rgb(0,50,00)';
               }

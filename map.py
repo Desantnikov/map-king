@@ -1,3 +1,5 @@
+from random import choice as r_choice
+
 from loguru import logger
 
 from cell import Cell
@@ -12,7 +14,7 @@ class Map:
         self.height = height
         # creating 2-dim list with cells, assigning a position to each, occupying by new Nobody,
         # (one cell - one Nobody with new coords), choosing random cell type
-        self.cells = [[Cell(x, y, Nobody(x, y), Cell.all_types.choice()) for x in range(width)] for y in range(height)]
+        self.cells = [[Cell(x, y, r_choice(Cell.all_types)) for x in range(width)] for y in range(height)]
         self.players = players
 
     def step(self, player, position_delta):
@@ -36,7 +38,7 @@ class Map:
         self.cells[new_x][new_y].occupy(player)  # occupy new cell
         player.change_location(new_x, new_y)  # update player's coords
 
-        return True, f'Stepped successfully' #self.cells[new_x][new_y]
+        return True, f'Stepped successfully'
 
     def _check_turn(self, prev_x, prev_y, new_x, new_y):
         if (prev_x - new_x, prev_y - new_y) not in VALID_POSITION_DELTAS:
@@ -50,9 +52,7 @@ class Map:
 
         return True, ''
 
-    def get(self):
-        return self.cells
-
-
-
-
+    def get_dict(self):
+        return [[{'occupied_by': cell.occupied_by,
+                  'foregroung_objects_list': cell.foregroung_objects_list,
+                  'cell_type': cell.cell_type} for cell in line] for line in self.cells]
