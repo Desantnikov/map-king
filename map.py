@@ -1,25 +1,24 @@
-from config import VALID_POSITION_DELTAS
-
 from loguru import logger
 
-from player import Nobody
 from cell import Cell
+from config import VALID_POSITION_DELTAS
 from events import Fight
+from player import Nobody
 
 
 class Map:
     def __init__(self, width, height, players):
         self.width = width
         self.height = height
-        self.cells = [[Cell(x, y, Nobody(x, y)) for x in range(width)] for y in range(height)]
+        # creating 2-dim list with cells, assigning a position to each, occupying by new Nobody,
+        # (one cell - one Nobody with new coords), choosing random cell type
+        self.cells = [[Cell(x, y, Nobody(x, y), Cell.all_types.choice()) for x in range(width)] for y in range(height)]
         self.players = players
 
     def step(self, player, position_delta):
-
         prev_x, prev_y = player.x, player.y
         delta_x, delta_y = position_delta
         new_x, new_y = prev_x + delta_x, prev_y + delta_y  # Separate method for calcs
-
 
         is_turn_valid, err = self._check_turn(prev_x, prev_y, new_x, new_y)
         if not is_turn_valid:

@@ -25,10 +25,10 @@ class Player(Nobody):
         self.health, self.attack = DEFAULT_HEALTH_LEVEL, DEFAULT_ATTACK_LEVEL
 
     def __str__(self):
-        return f'PLAYER: {self.id}; '#HP: {self.health}; Attack: {self.attack};'
+        return f'PLAYER{self.id}'#HP: {self.health}; Attack: {self.attack};'
 
     def __repr__(self):
-        return f'PLAYER: {self.id}; '#HP: {self.health}; Attack: {self.attack};'
+        return f'PLAYER{self.id}'#HP: {self.health}; Attack: {self.attack};'
 
     def __bool__(self):
         return True
@@ -36,8 +36,6 @@ class Player(Nobody):
     def change_location(self, x, y):
         self.x, self.y = x, y
         return True
-
-    #def calculate_
 
     def get_info(self):
         return {'id': self.id, 'health': self.health, 'attack': self.attack}
