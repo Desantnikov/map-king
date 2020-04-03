@@ -6,6 +6,7 @@
 </head>
 <body>
   <p>Map-king game</p>
+  <h2>Room number: <a id='room_id_link'>{{room_id}}</a></h2>
   <button onclick="turn()">Turn</button>
   <p>Turn of Player #</p>
   <p id="player_id">0</p>
@@ -16,10 +17,19 @@
 <script src="https://cdn.socket.io/socket.io-1.2.1.js"></script>
 <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
   <script type="text/javascript" charset="utf-8">
-    var socket = io.connect('http://' + document.domain + ':' + location.port, {transports: ['websocket'] });
+    var room_id = parseInt(document.getElementById('room_id_link').text);
 
-    var field = document.getElementById('field'),
-      ctx = field.getContext('2d');
+
+    var socketio = io.connect('http://' + document.domain + ':' + location.port, {transports: ['websocket'] });
+
+    socketio.on('connect', function(socket){
+      //console.log('connected, got' + room_id);
+      socketio.emit('create_room', {'room_id': room_id, 'username': 'test', 'token': 'token'});
+    });
+
+    var field = document.getElementById('field');
+    ctx = field.getContext('2d');
+
 
     var turn_owner = 0
 
@@ -27,11 +37,11 @@
     field.height = 500;
     ctx.strokeRect(0,0, 500, 500);
 
-    socket.on('test', function(msg) {
+    socketio.on('test', function(msg) {
         console.log('Test:', msg);
     });
 
-    socket.on('map_update', function(msg) {
+    socketio.on('map_update', function(msg) {
         console.log('Map updated: ', msg);
         draw(msg, field);
         turn_owner = msg['turn_owner']
@@ -40,16 +50,17 @@
 
 
     function turn() {
+      var room_id = parseInt(document.getElementById('room_id_link').text);
       //let player_id = document.getElementById("player_id").innerHTML
       let direction = document.getElementById("direction").value
-      let room_id = 0
 
-      console.log(player_id)
+
+      //console.log(player_id)
       //console.log(direction)
       dict = {'room_id': room_id, 'player_id': turn_owner, 'direction': direction}
-      console.log('Sending: ', dict)
+      console.log('Sending:  ', dict)
 
-      socket.emit('turn', dict)
+      socketio.emit('turn', dict)
     }
 
 

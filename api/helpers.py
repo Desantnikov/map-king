@@ -22,7 +22,7 @@ def get_unexpected_error_response(exception):
     return response_object, 401
 
 
-def get_token_model(token_type=None):
+def get_token_model(token_type=None):  # not good?
     from db.models.user import RevokedAccessTokenModel, RevokedRefreshTokenModel
     model_map = {'refresh': RevokedRefreshTokenModel, 'access': RevokedAccessTokenModel}
     try:

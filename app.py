@@ -12,7 +12,7 @@ from loguru import logger
 
 from db import db_init
 from api.resources import UserRegistration, UserLogin, UserLogoutAccess, UserLogoutRefresh, TokenRefresh, AllUsers, \
-    SecretResource, DatabaseDebugResource
+    SecretResource, DatabaseDebugResource, User
 
 
 
@@ -25,6 +25,7 @@ def api_init(app):
     api.add_resource(UserLogoutAccess, '/logout/access')
     api.add_resource(UserLogoutRefresh, '/logout/refresh')
     api.add_resource(TokenRefresh, '/token/refresh')
+    api.add_resource(User, '/user')
     api.add_resource(AllUsers, '/users')
     api.add_resource(SecretResource, '/secret')
     api.add_resource(DatabaseDebugResource, '/debug/show_db')

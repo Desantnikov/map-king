@@ -17,8 +17,10 @@ class UserModel(db.Model):
     def __repr__(self):
         return f'UserID: {self.id}; Username: {self.username};'
 
+    def get_user_data(self):
+        return {'id': self.id, 'username': self.username}
+
     def save_to_db(self):
-        # db.session.begin()
         db.session.add(self)
         db.session.commit()
 

@@ -1,4 +1,5 @@
 import json
+
 from flask_jwt_extended import jwt_refresh_token_required, get_jwt_identity, get_raw_jwt, jwt_required
 from flask_restful import Resource, reqparse
 
@@ -49,6 +50,19 @@ class UserLogin(UserModelResource):
         else:
             return {'message': 'Wrong credentials'}
 
+
+class User(UserModelResource):
+    @jwt_required
+    def get(self):
+        try:
+            current_user_name = get_jwt_identity()
+            if not current_user_name:
+                return json.dumps({'message': f'Corresponding token was not found'}, 200)
+
+            current_user = self.model.find_by_username(current_user_name)
+            return json.dumps(current_user.get_user_data()), 200
+        except Exception as e:
+            return get_unexpected_error_response(e)
 
 class UserLogoutAccess(Resource):
     def __init__(self):

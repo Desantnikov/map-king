@@ -22,13 +22,13 @@ class Cell(MapObject):
         return f'{self.get_location()}'
 
     def pop_from_foreground(self):  # remove closest to point of view object
-        return self.foregroung_objects_list.pop() if self.foregroung_objects_list else None
+        return self.foregroung_objects_list.pop() if self.foregroung_objects_list else None # !!!
 
     def add_on_foreground(self, object_to_add):  # add new object on top of already existing objs
         if object_to_add:
             self.foregroung_objects_list.append(object_to_add.get_image_name())
 
-    def occupy(self, player):  # no need to deoccupy bcs deoccupying == occupying by another player
+    def occupy(self, player):  # no need to deoccupy bcs deoccupying == occupying by Nobody
         if player:
             self.owner = player.id_
         else:
