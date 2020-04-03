@@ -25,8 +25,11 @@ class Cell(MapObject):
         return self.foregroung_objects_list.pop() if self.foregroung_objects_list else None # !!!
 
     def add_on_foreground(self, object_to_add):  # add new object on top of already existing objs
-        if object_to_add:
-            self.foregroung_objects_list.append(object_to_add.get_image_name())
+        #if object_to_add and not isinstance(object_to_add, str):
+            #self.foregroung_objects_list.append(object_to_add.get_image_name())
+        #elif object_to_add and isinstance(object_to_add, str):
+        self.foregroung_objects_list.append(object_to_add)
+
 
     def occupy(self, player):  # no need to deoccupy bcs deoccupying == occupying by Nobody
         if player:

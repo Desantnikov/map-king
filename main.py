@@ -24,6 +24,11 @@ def new_game():
     settings = [request.args.get(*parameter) for parameter in zip(MAP_SETTINGS, MAP_DEFAULTS)]
     parameters = settings + [len(rooms)]  # width, height, players, room_id
     rooms.append(Room(*parameters))
+    print(f'Rooms len: {len(rooms)}')
+
+    from random import choice
+    [choice(choice(rooms[-1].map.cells)).add_on_foreground('snake') for x in range(5)]
+    [choice(choice(rooms[-1].map.cells)).add_on_foreground('sign') for x in range(5)]
 
     return redirect(f'/room/{rooms[-1].id}')  # take room with explicid id
 
@@ -38,16 +43,22 @@ def play(room_id):
 @socketio.on('connect')
 def on_connect():
     print(f'\r\n\r\n\r\n CONNECTED \r\n\r\n')
+
     socketio.emit('test', 'connected!!')
 
 
 @socketio.on('create_room')
 def on_create_room(data):
-    username, token, room_id = data.get('username'), data.get('token'), data.get('room_id')
+    user_id, username, token, room_id = data.get('user_id'), data.get('username'), data.get('token'), data.get('room_id')
     room_id = int(room_id)
     join_room(room_id)
-    socketio.send(f'{username} has entered room {room_id}', room=room_id)
-    send_updated_map(room_id)
+    print(f'Rooms len: {len(rooms)}')
+    all_players_arrived = rooms[room_id].new_player_connected(user_id, username)
+
+    socketio.emit('test', f'{username} has entered room {room_id}', room=room_id)
+
+    if all_players_arrived:
+        send_updated_map(room_id)
 
 
 @socketio.on('get_map')
@@ -79,7 +90,7 @@ def send_updated_map(room_id):
     current_room = rooms[room_id]
 
     map_ = {'map': current_room.map.get_dict(),
-            'turn_owner': current_room.turn_owner_queue[0]}
+            'turn_owner': current_room.turn_owner_queue[0] }
 
     logger.info(f'send_upd_map: {map_}')
     socketio.emit('map_update', map_, room=room_id)

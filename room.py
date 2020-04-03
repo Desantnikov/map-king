@@ -12,16 +12,29 @@ class Room:
     def __init__(self, map_width, map_height, players_amount, room_id):
         self.id = room_id  # TODO: Hash?
         self.players_amount = players_amount
-        self.players = [Player(id, *self.calc_start_pos(id, map_width)) for id in range(self.players_amount)]
+        self.players = [Player(None, *self.calc_start_pos(id, map_width)) for id in range(self.players_amount)]
         self.map = Map(map_width, map_height, self.players)
 
-
-        self.turn_owner_queue = deque(range(self.players_amount))
+        self.turn_owner_queue = None#deque(range(self.players_amount))
         self.steps_left = deque(range(STEPS_PER_TURN))
-        self.initial_update()
+        #self.initial_update()
 
     def __str__(self):
         return ROOM_INFO.format(self.id, len(self.players), self.turn_owner_queue[0], self.steps_left[0])
+
+    def new_player_connected(self, user_id, username):
+        print('New player arrived')
+        for player in self.players:
+            if not player.id_:
+                player.id_ = user_id
+                break
+
+        if all([player.id_ for player in self.players]):
+            self.turn_owner_queue = deque([player.id_ for player in self.players])
+            self.initial_update()
+            print('All players arrived, we may start')
+            return True
+        return False
 
     def turn(self, player_id, direction):
         if player_id != self.turn_owner_queue[0]:
@@ -29,13 +42,18 @@ class Room:
             return False, self.turn_owner_queue[0]
 
         position_delta = DIRECTIONS[direction]
-        status, message = self.map.step(self.players[player_id], position_delta, )
+        status, message = self.map.step(self.find_player_by_database_id(player_id), position_delta, )
 
         logger.info(f'Step-response is: {status}; Info: {message};')
 
         self.update_turn() if status else logger.error(f'Failed to make a turn')
 
         return status, self.turn_owner_queue[0]
+
+    def find_player_by_database_id(self, db_id):
+        for player in self.players:
+            if player.id_ == db_id:
+                return player
 
     def update_turn(self):
         self.steps_left.rotate(1)
@@ -50,7 +68,3 @@ class Room:
         for player in self.players:
             x, y = player.get_location()
             self.map.cells[x][y].occupy(player)
-
-    # def get_map(self):
-    #     return self.map.get()
-

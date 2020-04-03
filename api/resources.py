@@ -60,7 +60,7 @@ class User(UserModelResource):
                 return json.dumps({'message': f'Corresponding token was not found'}, 200)
 
             current_user = self.model.find_by_username(current_user_name)
-            return json.dumps(current_user.get_user_data()), 200
+            return {'user': current_user.get_user_data()}, 200
         except Exception as e:
             return get_unexpected_error_response(e)
 
