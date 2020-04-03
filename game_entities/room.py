@@ -2,15 +2,15 @@ from collections import deque
 
 from loguru import logger
 
-from map import Map
-from player import Player
+from .map import Map
+from .player import Player
 
-from config import STEPS_PER_TURN, DIRECTIONS, ROOM_INFO
+from .config import STEPS_PER_TURN, DIRECTIONS, ROOM_INFO
 
 
 class Room:
     def __init__(self, map_width, map_height, players_amount, room_id):
-        self.id = room_id  # TODO: Hash?
+        self.id = room_id
         self.players_amount = players_amount
         self.players = [Player(None, *self.calc_start_pos(id, map_width)) for id in range(self.players_amount)]
         self.map = Map(map_width, map_height, self.players)
@@ -22,19 +22,15 @@ class Room:
     def __str__(self):
         return ROOM_INFO.format(self.id, len(self.players), self.turn_owner_queue[0], self.steps_left[0])
 
-    def new_player_connected(self, user_id, username):
-        print('New player arrived')
+    def new_player_connected(self, user_id):
+        print(f'New player {user_id} arrived')
         for player in self.players:
-            if not player.id_:
+            if not player.id_:  # id None -> free slot
                 player.id_ = user_id
                 break
 
-        if all([player.id_ for player in self.players]):
-            self.turn_owner_queue = deque([player.id_ for player in self.players])
-            self.initial_update()
-            print('All players arrived, we may start')
-            return True
-        return False
+    def count_free_slots(self):
+        return len(filter(lambda x: not bool(x.id_), self.players))
 
     def turn(self, player_id, direction):
         if player_id != self.turn_owner_queue[0]:
@@ -49,6 +45,14 @@ class Room:
         self.update_turn() if status else logger.error(f'Failed to make a turn')
 
         return status, self.turn_owner_queue[0]
+
+    def ready_to_start(self):
+        if all([player.id_ for player in self.players]):
+            self.turn_owner_queue = deque([player.id_ for player in self.players])
+            self.initial_update()
+            print('All players arrived, we may start')
+            return True
+        return False
 
     def find_player_by_database_id(self, db_id):
         for player in self.players:
@@ -68,3 +72,4 @@ class Room:
         for player in self.players:
             x, y = player.get_location()
             self.map.cells[x][y].occupy(player)
+

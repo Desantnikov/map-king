@@ -2,10 +2,10 @@ from random import choice as r_choice
 
 from loguru import logger
 
-from cell import Cell
-from config import VALID_POSITION_DELTAS
-from events import Fight
-from player import Nobody
+from .player import Nobody
+from .cell import Cell
+from .events import Fight
+from .config import VALID_POSITION_DELTAS
 
 
 class Map:

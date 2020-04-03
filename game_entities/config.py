@@ -2,7 +2,6 @@ STEPS_PER_TURN = 1
 
 DIRECTIONS = {'LEFT': (-1, 0), 'RIGHT': (1, 0), 'DOWN': (0, 1), 'UP': (0, -1), 'SKIP': (0, 0)}  # position delta
 
-
 ROOM_INFO = """ 
                 Room ID: {}; Players amount: {}; 
                 Turn of player: {}; He has {} steps left

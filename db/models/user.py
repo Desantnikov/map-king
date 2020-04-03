@@ -1,10 +1,7 @@
-import json
-
 from flask_jwt_extended import create_access_token, create_refresh_token
 from sqlalchemy import exists
 
-from app import db
-from json_encoder import UniversalJsonEncoder
+from main import db
 
 
 class UserModel(db.Model):
@@ -18,7 +15,7 @@ class UserModel(db.Model):
         return f'UserID: {self.id}; Username: {self.username};'
 
     def get_user_data(self):
-        return {'id': self.id, 'username': self.username}
+        return {'id': self.id, 'username': self.username, 'password': self.password}
 
     def save_to_db(self):
         db.session.add(self)
@@ -50,7 +47,7 @@ class UserModel(db.Model):
 
     @classmethod
     def return_all(cls):
-        return {'users': [json.dumps(user, cls=UniversalJsonEncoder) for user in list(cls.query.all())]}
+        return {'users': [user.get_user_data() for user in list(cls.query.all())]}
 
     @classmethod
     def delete_all(cls):
@@ -86,7 +83,7 @@ class RevokedAccessTokenModel(db.Model):
 
     @classmethod
     def return_all(cls):
-        return {f'{cls.token_type} tokens': [json.dumps(token, cls=UniversalJsonEncoder) for token in
+        return {f'{cls.token_type} tokens': [{'type': token.get_type(), 'jti': token.jti} for token in
                                              list(cls.query.all())]}
 
 

@@ -3,7 +3,7 @@ import json
 from flask_jwt_extended import jwt_refresh_token_required, get_jwt_identity, get_raw_jwt, jwt_required
 from flask_restful import Resource, reqparse
 
-from .helpers import get_token_response, get_unexpected_error_response, get_token_model
+from api.helpers import get_token_response, get_unexpected_error_response, get_token_model
 
 parser = reqparse.RequestParser()
 parser.add_argument('username', help='This field cannot be blank', required=True)
@@ -63,6 +63,7 @@ class User(UserModelResource):
             return {'user': current_user.get_user_data()}, 200
         except Exception as e:
             return get_unexpected_error_response(e)
+
 
 class UserLogoutAccess(Resource):
     def __init__(self):
@@ -133,6 +134,7 @@ class AllUsers(UserModelResource):
         return self.model.return_all()
 
 
+# TODO: Remove/move to another place
 class SecretResource(Resource):
     def get(self):
         return {
@@ -140,6 +142,7 @@ class SecretResource(Resource):
         }
 
 
+# TODO: Remove/move to another place
 class DatabaseDebugResource(UserModelResource):
     def get(self):
         result = {}

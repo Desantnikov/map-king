@@ -1,5 +1,4 @@
-from map_object import MapObject
-
+from .map_object import MapObject
 
 class Event(MapObject):
     def __init__(self, x, y, id):

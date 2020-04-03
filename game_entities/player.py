@@ -1,11 +1,6 @@
-import sys
 
-from loguru import logger
-
-from config import DEFAULT_HEALTH_LEVEL, DEFAULT_ATTACK_LEVEL
-from map_object import MapObject
-
-from db.models.user import UserModel
+from .config import DEFAULT_HEALTH_LEVEL, DEFAULT_ATTACK_LEVEL
+from .map_object import MapObject
 
 
 class Nobody(MapObject):

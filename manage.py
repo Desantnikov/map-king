@@ -1,9 +1,9 @@
 
 from flask_script import Manager
 from flask_migrate import Migrate, MigrateCommand
-from db.models.user import UserModel, RevokedAccessTokenModel, RevokedRefreshTokenModel
+from db import UserModel, RevokedAccessTokenModel, RevokedRefreshTokenModel
 
-from app import flask_app as app, db
+from main import flask_app as app, db
 
 
 #app.config.from_object(os.environ['APP_SETTINGS'])

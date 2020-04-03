@@ -1,7 +1,6 @@
 from loguru import logger
 
-from player import Nobody
-from map_object import MapObject
+from .map_object import MapObject
 
 
 class Cell(MapObject):

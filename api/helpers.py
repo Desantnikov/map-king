@@ -1,6 +1,3 @@
-
-
-
 def get_token_response(user):
     access_token = user.get_access_token()
     refresh_token = user.get_refresh_token()
@@ -29,5 +26,4 @@ def get_token_model(token_type=None):  # not good?
         return model_map[token_type]
     except KeyError:
         raise Exception(f"{token_type} model requested, only: {' ; '.join(model_map.keys())} are present")
-
 

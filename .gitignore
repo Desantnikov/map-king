@@ -4,3 +4,4 @@ log
 __pycache__
 idea
 map-kings-venv
+.db.models.__pycache__
