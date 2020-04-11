@@ -34,3 +34,6 @@ INPUT = [['get', {'url': '/', 'headers': None}]]
 EXPECTED_OUTPUT = ['Please use /room/new test']
 
 INPUT_OUTPUT_DICT.update({'jwt_access': [INPUT[:], EXPECTED_OUTPUT[:]]})
+
+
+# Authorization: Bearer <token>

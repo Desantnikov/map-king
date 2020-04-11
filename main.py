@@ -47,11 +47,16 @@ def new_game():
 
 
 @flask_app.route('/room/<int:room_id>')
+# @jwt_required
 @cross_origin()
 def play(room_id):
-    room_id = int(room_id)
-    return render_template('play.html', room_id=room_id)
-
+    if not list(filter(lambda x: x.id == int(room_id), rooms)):
+        print('no room line 54')
+        status, message, rsp_code = 'failed', f'len(rooms): {len(rooms)}; room_id: {room_id}', 404
+    else:
+        print('room exists line 57')
+        status, message, rsp_code = 'success', '', 200
+    return {'status': status, 'message': message}, rsp_code
 
 @socketio.on('connect')
 def on_connect():
@@ -59,24 +64,40 @@ def on_connect():
     socketio.emit('test', 'connected!!')
 
 
-@socketio.on('create_room') # TODO: Rename on_join_to_room
-def on_create_room(data):
+@socketio.on('join_to_room')
+def on_join_to_room(data):
     # enter socketIO room with same ID as game room's id
-    user_id, username, token, room_id = int(data.get('user_id')), int(data.get('username')), \
-                                        int(data.get('token')), int(data.get('room_id'))
-    cur_room = rooms[room_id]
-    join_room(cur_room.id)
+    user_id, username, token, room_id = int(data.get('user_id')), data.get('username'), \
+                                        data.get('token'), int(data.get('room_id'))
+    # TODO: Add token check
 
-    cur_room.new_player_connected(user_id, username)
+    socketio.emit('test', f'join_to_room line 73')
+
+    if not list(filter(lambda x: x.id == room_id, rooms)):
+        socketio.emit('test', f'No room with such id')
+        return
+
+    logger.debug('Before join room')
+    try:
+        cur_room = rooms[room_id]
+        join_room(cur_room.id)
+        cur_room.new_player_connected(user_id)#, username)
+
+    except Exception as e:
+        logger.error(e)
+        return
 
     socketio.emit('test', f'{username} has entered room; Please wait: '
                           f'{cur_room.count_free_slots()}', room=room_id)
 
     if cur_room.ready_to_start():
+        socketio.emit('test', f'Room {room_id} ready to start', room=room_id)
         send_updated_map(room_id)
     else:
+        socketio.emit('test', f'Room {room_id} not ready to start, {cur_room.count_free_slots()} free slots left', room=room_id)
         socketio.emit('map_update', f'Not all players present; {cur_room.count_free_slots()} '
                                     f'players left to total amount of {cur_room.players_amount}', room=room_id)
+
 
 
 @socketio.on('get_map')
@@ -98,10 +119,9 @@ def turn(data):
     send_updated_map(room_id)
     player_info = ''
     for player in rooms[room_id].players:  # Debug
-        player_info = player_info + f'Player {player.id} has {player.health} HP'
+        player_info = player_info + f'Player {player.id_} has {player.health} HP'
 
     socketio.emit('test', player_info, room=room_id)
-
 
 def send_updated_map(room_id):
     room_id = int(room_id)
@@ -113,6 +133,8 @@ def send_updated_map(room_id):
     logger.info(f'send_upd_map: {map_}')
     socketio.emit('map_update', map_, room=room_id)
 
+# def emit_in_test(message, room_id):
+#     socketio.emit('test', message room=room_id)
 
 if __name__ == '__main__':
     flask_app.run('0.0.0.0')

@@ -30,7 +30,7 @@ class Room:
                 break
 
     def count_free_slots(self):
-        return len(filter(lambda x: not bool(x.id_), self.players))
+        return len(list(filter(lambda x: not bool(x.id_), self.players)))
 
     def turn(self, player_id, direction):
         if player_id != self.turn_owner_queue[0]:
