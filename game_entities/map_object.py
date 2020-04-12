@@ -4,7 +4,7 @@ class MapObject:
 
     """
 
-    def __init__(self, x, y, object_name=None):
+    def __init__(self, x, y, object_name=None, id=None):
         self.x, self.y = x, y
         self.object_name = object_name
 

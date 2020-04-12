@@ -12,12 +12,14 @@ class Room:
     def __init__(self, map_width, map_height, players_amount, room_id):
         self.id = room_id
         self.players_amount = players_amount
+
+        # TODO: iterate over list of real ids
         self.players = [Player(None, *self.calc_start_pos(id, map_width)) for id in range(self.players_amount)]
         self.map = Map(map_width, map_height, self.players)
 
         self.turn_owner_queue = None#deque(range(self.players_amount))
         self.steps_left = deque(range(STEPS_PER_TURN))
-        #self.initial_update()
+        self.initial_update()
 
     def __str__(self):
         return ROOM_INFO.format(self.id, len(self.players), self.turn_owner_queue[0], self.steps_left[0])
@@ -68,8 +70,8 @@ class Room:
     def calc_start_pos(self, id, map_width):
         return map_width // self.players_amount * id, 0  # TODO: Rework
 
-    def initial_update(self):
-        for player in self.players:
-            x, y = player.get_location()
-            self.map.cells[x][y].occupy(player)
+    def initial_update(self):  # Make an in-place cells occupying when creating a new object&
+        for object in self.players + self.map.enemies:
+            x, y = object.get_location()
+            self.map.cells[x][y].occupy(object)
 

@@ -1,5 +1,5 @@
 
-from .config import DEFAULT_HEALTH_LEVEL, DEFAULT_ATTACK_LEVEL
+from .config import DEFAULT_PLAYER_HEALTH_LEVEL, DEFAULT_PLAYER_ATTACK_LEVEL
 from .map_object import MapObject
 
 
@@ -18,7 +18,7 @@ class Nobody(MapObject):
 class Player(Nobody):
     def __init__(self, id_, x, y):
         super().__init__(x, y, id_)
-        self.health, self.attack = DEFAULT_HEALTH_LEVEL, DEFAULT_ATTACK_LEVEL
+        self.health, self.attack = DEFAULT_PLAYER_HEALTH_LEVEL, DEFAULT_PLAYER_ATTACK_LEVEL
 
     def __str__(self):
         return f'PLAYER{self.id_}'

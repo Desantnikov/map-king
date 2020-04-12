@@ -1,4 +1,8 @@
 from .room import Room
+from .player import Player
+from .enemy import Enemy
+from .skills import get_skills_list, SKILLS
+
 from .config import MAP_SETTINGS, MAP_DEFAULTS
 
 rooms = []
@@ -9,9 +13,9 @@ def create_new_room(request_data):
     parameters = settings + [len(rooms)]  # width, height, players, room_id
     rooms.append(Room(*parameters))
 
-    from random import choice  # until map generation will be done
-    [choice(choice(rooms[-1].map.cells)).add_on_foreground('snake') for x in range(5)]
-    [choice(choice(rooms[-1].map.cells)).add_on_foreground('sign') for x in range(5)]
+    # from random import choice  # until map generation will be done
+    # [choice(choice(rooms[-1].map.cells)).add_on_foreground('snake') for x in range(5)]
+    # [choice(choice(rooms[-1].map.cells)).add_on_foreground('sign') for x in range(5)]
 
     return rooms[-1]
 
