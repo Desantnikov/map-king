@@ -1,8 +1,7 @@
-from random import randint as r_choice, r_int
-
+from random import choice
 from loguru import logger
 
-from game_entities import Nobody, Enemy
+from game_entities.player import Nobody  # import from module not from file
 from .cell import Cell
 from .config import VALID_POSITION_DELTAS, ENEMIES_AMOUNT_MULTIPLIER
 from .events import Fight
@@ -14,7 +13,7 @@ class Map:
         self.height = height
         # creating 2-dim list with cells, assigning a position to each, occupying by new Nobody,
         # (one cell - one Nobody with new coords), choosing random cell type
-        self.cells = [[Cell(x, y, r_choice(Cell.all_types)) for x in range(width)] for y in range(height)]
+        self.cells = [[Cell(x, y, choice(Cell.all_types)) for x in range(width)] for y in range(height)]
         self.players, self.enemies = players, []
         self.enemies_add()
 
@@ -42,12 +41,17 @@ class Map:
         return True, f'Stepped successfully'
 
     def enemies_add(self):
+        from game_entities.enemy import Enemy
+
         amount_to_add = int(self.width * self.height * ENEMIES_AMOUNT_MULTIPLIER)
         while len(self.enemies) < amount_to_add:
-            self.enemies.append(Enemy(self.get_random_not_occupied_cell().get_location()))
+            self.enemies.append(Enemy(*self.get_random_not_occupied_cell().get_location()))
 
     def get_random_not_occupied_cell(self):
-        return r_choice(list(filter(lambda x: not x.occupied, [cell for cell in [row for row in self.cells]])))
+        cell = choice(choice(self.cells))
+        if cell.occupied:
+            return self.get_random_not_occupied_cell()
+        return cell
 
     def _check_turn(self, prev_x, prev_y, new_x, new_y):
         if (prev_x - new_x, prev_y - new_y) not in VALID_POSITION_DELTAS:

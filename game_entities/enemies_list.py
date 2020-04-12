@@ -1,16 +1,16 @@
-from game_entities import get_skills_list
+from .skills import get_skills_list
 
 SNAKE = {'name': 'Snake',
          'health': 5,
-         'Skills': get_skills_list('regular_attack')}
+         'Skills': get_skills_list(('melee_attack', ))}
 
 CREEPY_GHOST = {'name': 'Creepy Ghost',
                 'health': 5,
-                'skills': get_skills_list(('melee_attack', 'range_attack'))}
+                'skills': get_skills_list(('melee_attack', 'ranged_attack'))}
 
 STALKER_GHOST = {'name': 'Stalker Ghost',
                  'health': 5,
-                 'skills': get_skills_list(('melee_attack', 'range_attack'))}
+                 'skills': get_skills_list(('melee_attack', 'ranged_attack'))}
 
 
 ENEMIES_DICT = ({

@@ -5,8 +5,8 @@ SKILLS = ({
 })
 
 
-def get_skills_list(skills):
-    skills = [SKILLS.get(name) for name in skills]
+def get_skills_list(skills_list):
+    skills = [SKILLS.get(name) for name in skills_list]
     if not all(skills):
-        raise IndexError(f'Skill(s) not found: {list(filter(bool, skills))} ')
+        raise IndexError(f'Skills to found: {skills_list}; Found skills: {skills}')
     return skills

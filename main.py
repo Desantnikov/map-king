@@ -66,11 +66,12 @@ def on_connect():
 
 @socketio.on('join_to_room')
 def on_join_to_room(data):
+    logger.info(f'join_to_room handler')
     # enter socketIO room with same ID as game room's id
     user_id, username, token, room_id = int(data.get('user_id')), data.get('username'), \
                                         data.get('token'), int(data.get('room_id'))
     # TODO: Add token check
-
+    logger.info(f'joining room {room_id}')
     socketio.emit('test', f'join_to_room line 73')
 
     if not list(filter(lambda x: x.id == room_id, rooms)):
